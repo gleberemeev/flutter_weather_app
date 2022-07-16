@@ -1,41 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/data/model/home_screen_state.dart';
+import 'package:get/get.dart';
+import 'package:weather_app/screen/home/controller/home_controller.dart';
 
 class HomeWidget extends StatelessWidget {
-  final HomeScreenState state;
+  HomeController controller = Get.put(HomeController());
 
-  const HomeWidget({
+  HomeWidget({
     Key? key,
-    required this.state,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String>? cities = state.cities;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (cities == null)
-          const SizedBox(width: 8)
-        else
-          DropdownButton(
-            items: cities.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value))).toList(),
-            onChanged: (String? newValue) {
-              //todo onCityChanged
-            },
-          ),
+        Obx(() {
+          List<String>? cities = controller.state.value.cities;
+          if (cities == null) {
+            return const SizedBox(width: 8);
+          } else {
+            return DropdownButton(
+              items: cities.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value))).toList(),
+              onChanged: (String? newValue) {
+                //todo onCityChanged
+              },
+            );
+          }
+        }),
         const SizedBox(width: 8),
-        DropdownButton(
-            items:
-                state.seasons.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value))).toList(),
-            onChanged: (String? newValue) {
-              //todo onSeasonChanged
-            }
-          ),
+        Obx(() {
+          return DropdownButton(
+              items: controller.state.value.seasons
+                  .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value)))
+                  .toList(),
+              onChanged: (String? newValue) {
+                //todo onSeasonChanged
+              });
+        }),
         const SizedBox(width: 8),
-        Text(state.temperatureIndicator),
+        Obx(() => Text(controller.state.value.temperatureIndicator)),
         const SizedBox(width: 8),
-        Text(state.cityType)
+        Obx(() => Text(controller.state.value.cityType))
       ],
     );
   }
