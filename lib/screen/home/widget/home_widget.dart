@@ -21,14 +21,15 @@ class HomeWidget extends StatelessWidget {
               hint: const Text("Select city"),
               disabledHint: const Text("Open Settings screen to add a new city"),
               items: cities
-                  ?.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
+                  .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
                         value: value,
                         child: Text(value),
                       ))
                   .toList(),
               onChanged: (String? newValue) {
-                //todo onCityChanged
+                controller.onCityChanged(newValue);
               },
+              value: controller.state.value.selectedCity,
             );
           }),
           const SizedBox(height: 8),
@@ -42,8 +43,9 @@ class HomeWidget extends StatelessWidget {
                         ))
                     .toList(),
                 onChanged: (String? newValue) {
-                  //todo onSeasonChanged
-                });
+                  controller.onSeasonChanged(newValue);
+                },
+                value: controller.state.value.selectedSeason);
           }),
           const SizedBox(height: 8),
           Obx(() => Text(controller.state.value.temperatureIndicator)),
