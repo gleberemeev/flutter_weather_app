@@ -15,7 +15,8 @@ class HomeScreenState {
   });
 
   static HomeScreenState _empty() {
-    return HomeScreenState(cities: null, seasons: List.empty(), temperatureIndicator: "", cityType: "");
+    return HomeScreenState(cities: List.of(["Bangkok", "Singapore", "Kuala Lumpur"]),
+        seasons: List.of(["Summer", "Fall", "Winter", "Spring"]), temperatureIndicator: "30", cityType: "medium");
   }
 
   factory HomeScreenState.empty() {

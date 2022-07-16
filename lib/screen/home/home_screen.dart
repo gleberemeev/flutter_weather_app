@@ -6,6 +6,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeWidget();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Weather App",
+        ),
+
+      ),
+      body: SafeArea(
+        child: HomeWidget(),
+      ),
+    );
   }
 }

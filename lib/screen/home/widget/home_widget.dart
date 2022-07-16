@@ -11,37 +11,46 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Obx(() {
-          List<String>? cities = controller.state.value.cities;
-          if (cities == null) {
-            return const SizedBox(width: 8);
-          } else {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Obx(() {
+            List<String>? cities = controller.state.value.cities;
             return DropdownButton(
-              items: cities.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value))).toList(),
+              hint: const Text("Select city"),
+              disabledHint: const Text("Open Settings screen to add a new city"),
+              items: cities
+                  ?.map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      ))
+                  .toList(),
               onChanged: (String? newValue) {
                 //todo onCityChanged
               },
             );
-          }
-        }),
-        const SizedBox(width: 8),
-        Obx(() {
-          return DropdownButton(
-              items: controller.state.value.seasons
-                  .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(child: Text(value)))
-                  .toList(),
-              onChanged: (String? newValue) {
-                //todo onSeasonChanged
-              });
-        }),
-        const SizedBox(width: 8),
-        Obx(() => Text(controller.state.value.temperatureIndicator)),
-        const SizedBox(width: 8),
-        Obx(() => Text(controller.state.value.cityType))
-      ],
+          }),
+          const SizedBox(height: 8),
+          Obx(() {
+            return DropdownButton(
+                hint: const Text("Select a season"),
+                items: controller.state.value.seasons
+                    .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
+                          value: value,
+                          child: Text(value),
+                        ))
+                    .toList(),
+                onChanged: (String? newValue) {
+                  //todo onSeasonChanged
+                });
+          }),
+          const SizedBox(height: 8),
+          Obx(() => Text(controller.state.value.temperatureIndicator)),
+          const SizedBox(height: 8),
+          Obx(() => Text(controller.state.value.cityType))
+        ],
+      ),
     );
   }
 }
