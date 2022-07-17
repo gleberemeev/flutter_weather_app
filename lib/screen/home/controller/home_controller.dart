@@ -5,6 +5,12 @@ import 'package:weather_app/data/model/state/home_screen_state.dart';
 class HomeController extends GetxController {
   var state = Rx(HomeScreenState.empty());
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   void onSeasonChanged(String? season) {
     state.value = state.value.copyWith(selectedSeason: season);
   }
