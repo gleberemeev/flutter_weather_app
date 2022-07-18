@@ -8,6 +8,6 @@ class CityDataDomain with _$CityDataDomain {
     required String cityName,
     required String seasonName,
     required String cityType,
-    required String temperature,
+    required double temperature,
   }) = _CityDataDomain;
 }

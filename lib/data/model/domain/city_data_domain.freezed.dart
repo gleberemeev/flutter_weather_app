@@ -19,7 +19,7 @@ mixin _$CityDataDomain {
   String get cityName => throw _privateConstructorUsedError;
   String get seasonName => throw _privateConstructorUsedError;
   String get cityType => throw _privateConstructorUsedError;
-  String get temperature => throw _privateConstructorUsedError;
+  double get temperature => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CityDataDomainCopyWith<CityDataDomain> get copyWith =>
@@ -35,7 +35,7 @@ abstract class $CityDataDomainCopyWith<$Res> {
       {String cityName,
       String seasonName,
       String cityType,
-      String temperature});
+      double temperature});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$CityDataDomainCopyWithImpl<$Res>
       temperature: temperature == freezed
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ));
   }
 }
@@ -86,7 +86,7 @@ abstract class _$$_CityDataDomainCopyWith<$Res>
       {String cityName,
       String seasonName,
       String cityType,
-      String temperature});
+      double temperature});
 }
 
 /// @nodoc
@@ -123,7 +123,7 @@ class __$$_CityDataDomainCopyWithImpl<$Res>
       temperature: temperature == freezed
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ));
   }
 }
@@ -144,7 +144,7 @@ class _$_CityDataDomain implements _CityDataDomain {
   @override
   final String cityType;
   @override
-  final String temperature;
+  final double temperature;
 
   @override
   String toString() {
@@ -183,7 +183,7 @@ abstract class _CityDataDomain implements CityDataDomain {
       {required final String cityName,
       required final String seasonName,
       required final String cityType,
-      required final String temperature}) = _$_CityDataDomain;
+      required final double temperature}) = _$_CityDataDomain;
 
   @override
   String get cityName;
@@ -192,7 +192,7 @@ abstract class _CityDataDomain implements CityDataDomain {
   @override
   String get cityType;
   @override
-  String get temperature;
+  double get temperature;
   @override
   @JsonKey(ignore: true)
   _$$_CityDataDomainCopyWith<_$_CityDataDomain> get copyWith =>

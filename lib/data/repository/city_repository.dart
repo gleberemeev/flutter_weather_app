@@ -113,6 +113,14 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     });
   }
 
+  Future<List<String>> fetchAllCities() async {
+    return (select(city).map((p0) => p0.name)).get();
+  }
+
+  Future<List<String>> fetchAllSeasons() async {
+    return (select(season).map((p0) => p0.name)).get();
+  }
+
   Future<CityDataDomain?> fetchSelectedCityData() async {
     final selectedCitiesResult = await (select(city)..where((tbl) => tbl.isSelected.equals(true))).get();
     if (selectedCitiesResult.isEmpty) return null;
@@ -133,11 +141,10 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
       ..where((tbl) => tbl.monthId.isIn(monthsIds))
       ..where((tbl) => tbl.cityId.equals(selectedCity.id)))
       .get();
-
+    final monthsCount = monthsIds.length;
     final averageTemperature = temperatureResult
         .map((e) => e.value)
-        .reduce((value, element) => value + element)
-        .toString();
+        .reduce((value, element) => value + element) / monthsCount;
     return CityDataDomain(
       cityName: selectedCity.name,
       seasonName: selectedSeason.name,
