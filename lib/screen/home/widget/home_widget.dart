@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:weather_app/screen/home/controller/home_controller.dart';
 
 class HomeWidget extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.find();
 
   HomeWidget({
     Key? key,
@@ -76,7 +76,7 @@ class HomeWidget extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  //todo onPressed
+                  controller.navigateToSettings();
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),

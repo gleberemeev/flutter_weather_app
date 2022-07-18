@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_domain.dart';
 import 'package:weather_app/data/model/state/home_screen_state.dart';
 import 'package:weather_app/data/repository/city_repository.dart';
+import 'package:weather_app/screen/settings/settings_screen.dart';
 import 'package:weather_app/util/extensions.dart';
 
 class HomeController extends GetxController {
@@ -80,5 +81,9 @@ class HomeController extends GetxController {
         cityType: domainModel.cityType,
         selectedSeason: domainModel.seasonName,
         selectedCity: domainModel.cityName);
+  }
+
+  void navigateToSettings() {
+    Get.to(SettingsScreen());
   }
 }
