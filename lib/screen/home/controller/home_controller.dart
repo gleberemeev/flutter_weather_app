@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_domain.dart';
 import 'package:weather_app/data/model/state/home_screen_state.dart';
 import 'package:weather_app/data/repository/city_repository.dart';
+import 'package:weather_app/util/extensions.dart';
 
 class HomeController extends GetxController {
   static const int temperatureTextLength = 5;
@@ -61,7 +62,9 @@ class HomeController extends GetxController {
       List<String> seasons,
       CityDataDomain domainModel,
       ) {
-    final temperature = domainModel.temperature.toString().substring(0, temperatureTextLength);
+    final temperature = domainModel.temperature
+        .toString()
+        .truncate(max: temperatureTextLength);
 
     return HomeScreenState(
         cities: cities,

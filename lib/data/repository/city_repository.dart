@@ -138,13 +138,13 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     if (selectedCityResult.isEmpty) return;
 
     final selectedCity = selectedCityResult[0].copyWith(isSelected: true);
-    into(city).insert(selectedCity);
+    into(city).insertOnConflictUpdate(selectedCity);
 
     final unselectedCityResult = await(select(city)..where((tbl) => tbl.name.equals(previousCityName))).get();
     if (unselectedCityResult.isEmpty) return;
 
     final unselectedCity = unselectedCityResult[0].copyWith(isSelected: false);
-    into(city).insert(unselectedCity);
+    into(city).insertOnConflictUpdate(unselectedCity);
   }
 
   Future<void> setSeasonSelected(String selectedSeasonName, String previousSeasonName) async {
@@ -152,13 +152,13 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     if (selectedSeasonResult.isEmpty) return;
 
     final selectedSeason = selectedSeasonResult[0].copyWith(isSelected: true);
-    into(season).insert(selectedSeason);
+    into(season).insertOnConflictUpdate(selectedSeason);
 
     final unselectedSeasonResult = await(select(season)..where((tbl) => tbl.name.equals(previousSeasonName))).get();
     if (unselectedSeasonResult.isEmpty) return;
 
     final unselectedSeason = unselectedSeasonResult[0].copyWith(isSelected: false);
-    into(season).insert(unselectedSeason);
+    into(season).insertOnConflictUpdate(unselectedSeason);
   }
 
   Future<CityDataDomain?> _fetchCityData(String? cityName, String? seasonName) async {
