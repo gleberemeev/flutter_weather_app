@@ -95,7 +95,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               () => TextEditingController()
                       );
                       if (textController.text != entry.value.toString()) {
-                        textController.text = entry.value.toString();
+                        final String text = entry.value.toString();
+                        textController.text = text;
+                        textController.selection = TextSelection.fromPosition(TextPosition(offset: text.length));
                       }
                       return Column(
                         children: [

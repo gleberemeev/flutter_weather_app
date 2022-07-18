@@ -7,6 +7,7 @@ import 'package:weather_app/data/model/db/month_model_db.dart';
 import 'package:weather_app/data/model/db/season_model_db.dart';
 import 'package:weather_app/data/model/db/temperature_model_db.dart';
 import 'package:weather_app/data/model/domain/city_data_detailed_domain.dart';
+import 'package:weather_app/data/model/domain/save_city_data_domain.dart';
 import 'package:weather_app/data/weather_app_db.dart';
 
 import '../model/domain/city_data_domain.dart';
@@ -249,5 +250,29 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
         cityType: selectedCityType.name,
         monthlyTemperatures: temperatureMap
     );
+  }
+
+  Future<void> saveData(SaveCityDataDomain saveDataRequest) async {
+    final cityResult = await (select(city)..where((tbl) => tbl.name.equals(saveDataRequest.cityName))).get();
+    if (cityResult.isEmpty) return;
+
+    final cityTypeResult = await (select(cityType)..where((tbl) => tbl.name.equals(saveDataRequest.cityType))).get();
+    if (cityTypeResult.isEmpty) return;
+
+    city.insertOnConflictUpdate(cityResult.first.copyWith(
+      cityTypeId: cityTypeResult.first.id,
+    ));
+
+    final temperaturesResult = await (select(temperature)..where((tbl) => tbl.cityId.equals(cityResult.first.id))).get();
+    final monthsResult = await (select(month)).get();
+    final temperaturesMap = saveDataRequest.monthlyTemperatures;
+    for (var temperatureEntity in temperaturesResult) {
+      final monthName = monthsResult.firstWhere((element) => element.id == temperatureEntity.monthId).name;
+      final newTemperature = temperaturesMap[monthName];
+      final newTemperatureEntity = temperatureEntity.copyWith(
+        value: newTemperature,
+      );
+      temperature.insertOnConflictUpdate(newTemperatureEntity);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_detailed_domain.dart';
+import 'package:weather_app/data/model/domain/save_city_data_domain.dart';
 import 'package:weather_app/data/model/state/settings_screen_state.dart';
 import 'package:weather_app/data/repository/city_repository.dart';
 
@@ -34,7 +35,9 @@ class SettingsController extends GetxController {
     state.value = oldState;
   }
 
-  void saveData() {
+  void saveData() async {
+    final saveDataRequest = _mapFromScreenState(state.value);
+    await _repository.saveData(saveDataRequest);
     Fluttertoast.showToast(
       msg: "Your data was saved",
       toastLength: Toast.LENGTH_LONG,
@@ -44,15 +47,15 @@ class SettingsController extends GetxController {
 
   void onTemperatureChanged(String month, String newTemperature) {
     final oldState = state.value;
+    final newTemperatureValue = newTemperature.isEmpty ? 0 : int.parse(newTemperature);
     final temperatureMap = oldState.monthlyTemperatures.map((key, value) {
       if (key == month) {
-        return MapEntry(key, int.parse(newTemperature));
+        return MapEntry(key, newTemperatureValue);
       } else {
         return MapEntry(key, value);
       }
     });
 
-    temperatureMap[month] = int.parse(newTemperature);
     state.value = oldState.copyWith(
       monthlyTemperatures: temperatureMap,
     );
@@ -72,5 +75,13 @@ class SettingsController extends GetxController {
         cityTypes: model.cityTypes,
         selectedCityType: model.cityType,
         monthlyTemperatures: model.monthlyTemperatures);
+  }
+
+  SaveCityDataDomain _mapFromScreenState(SettingsScreenState state) {
+    return SaveCityDataDomain(
+        cityName: state.selectedCity,
+        cityType: state.selectedCityType,
+        monthlyTemperatures: state.monthlyTemperatures
+    );
   }
 }
