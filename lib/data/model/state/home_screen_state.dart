@@ -5,7 +5,7 @@ part 'home_screen_state.freezed.dart';
 
 @freezed
 class HomeScreenState with _$HomeScreenState {
-  static final HomeScreenState _cache = _empty();
+  static HomeScreenState? _cache;
 
   const factory HomeScreenState({
     required List<String> cities,
@@ -26,6 +26,7 @@ class HomeScreenState with _$HomeScreenState {
   }
 
   factory HomeScreenState.empty() {
-    return _cache;
+    _cache ??= _empty();
+    return _cache!;
   }
 }

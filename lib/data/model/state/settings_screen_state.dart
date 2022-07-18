@@ -8,7 +8,7 @@ part 'settings_screen_state.freezed.dart';
 
 @freezed
 class SettingsScreenState with _$SettingsScreenState {
-  static final SettingsScreenState _cache = _empty();
+  static SettingsScreenState? _cache;
 
   const factory SettingsScreenState({
     required Iterable<String> cities,
@@ -29,6 +29,7 @@ class SettingsScreenState with _$SettingsScreenState {
   }
 
   factory SettingsScreenState.empty() {
-    return _cache;
+    _cache ??= _empty();
+    return _cache!;
   }
 }

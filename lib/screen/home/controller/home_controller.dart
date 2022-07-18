@@ -24,6 +24,20 @@ class HomeController extends GetxController {
     if (selectedCityData == null) return;
 
     state.value = _mapFromDomain(cities, seasons, selectedCityData);
+
+    repository.listenCityUpdates().listen((event) {
+      _updateSelectedCityData();
+    });
+    repository.listenTemperatureUpdates().listen((event) {
+      _updateSelectedCityData();
+    });
+  }
+
+  void _updateSelectedCityData() async {
+    final selectedCityData = await repository.fetchSelectedCityData();
+    if (selectedCityData == null) return;
+
+    state.value = _updateFromDomain(selectedCityData);
   }
 
   void onSeasonChanged(String? season) async {
@@ -63,6 +77,21 @@ class HomeController extends GetxController {
         state.value = _mapFromDomain(cities, seasons, cityChangedDomain);
       }
     }
+  }
+
+  HomeScreenState _updateFromDomain(
+      CityDataDomain domainModel,
+      ) {
+    final temperature = domainModel.temperature
+        .toString()
+        .truncate(max: temperatureTextLength);
+
+    final oldState = state.value;
+    return oldState.copyWith(
+      temperatureIndicator: temperature,
+      cityType: domainModel.cityType,
+      selectedSeason: domainModel.seasonName,
+      selectedCity: domainModel.cityName);
   }
 
   HomeScreenState _mapFromDomain(

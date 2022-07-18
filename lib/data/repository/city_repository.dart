@@ -140,6 +140,14 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     return _fetchCityData(null, null);
   }
 
+  Stream<List<TemperatureData>> listenTemperatureUpdates() {
+    return select(temperature).watch();
+  }
+
+  Stream<List<CityData>> listenCityUpdates() {
+    return select(city).watch();
+  }
+
   Future<void> setCitySelected(String selectedCityName, String previousCityName) async {
     final selectedCityResult = await(select(city)
       ..where((tbl) => tbl.name.equals(selectedCityName))).get();
