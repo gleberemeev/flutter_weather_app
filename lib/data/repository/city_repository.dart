@@ -121,12 +121,64 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     return (select(season).map((p0) => p0.name)).get();
   }
 
+  Future<CityDataDomain?> fetchCityDataByCity(String cityName) async {
+    return _fetchCityData(cityName, null);
+  }
+
+  Future<CityDataDomain?> fetchCityDataBySeason(String seasonName) async {
+    return _fetchCityData(null, seasonName);
+  }
+
   Future<CityDataDomain?> fetchSelectedCityData() async {
-    final selectedCitiesResult = await (select(city)..where((tbl) => tbl.isSelected.equals(true))).get();
+    return _fetchCityData(null, null);
+  }
+
+  Future<void> setCitySelected(String selectedCityName, String previousCityName) async {
+    final selectedCityResult = await(select(city)..where((tbl) => tbl.name.equals(selectedCityName))).get();
+    if (selectedCityResult.isEmpty) return;
+
+    final selectedCity = selectedCityResult[0].copyWith(isSelected: true);
+    into(city).insert(selectedCity);
+
+    final unselectedCityResult = await(select(city)..where((tbl) => tbl.name.equals(previousCityName))).get();
+    if (unselectedCityResult.isEmpty) return;
+
+    final unselectedCity = unselectedCityResult[0].copyWith(isSelected: false);
+    into(city).insert(unselectedCity);
+  }
+
+  Future<void> setSeasonSelected(String selectedSeasonName, String previousSeasonName) async {
+    final selectedSeasonResult = await(select(season)..where((tbl) => tbl.name.equals(selectedSeasonName))).get();
+    if (selectedSeasonResult.isEmpty) return;
+
+    final selectedSeason = selectedSeasonResult[0].copyWith(isSelected: true);
+    into(season).insert(selectedSeason);
+
+    final unselectedSeasonResult = await(select(season)..where((tbl) => tbl.name.equals(previousSeasonName))).get();
+    if (unselectedSeasonResult.isEmpty) return;
+
+    final unselectedSeason = unselectedSeasonResult[0].copyWith(isSelected: false);
+    into(season).insert(unselectedSeason);
+  }
+
+  Future<CityDataDomain?> _fetchCityData(String? cityName, String? seasonName) async {
+    final selectedCitiesResult = await (select(city)..where((tbl) {
+      if (cityName == null) {
+        return tbl.isSelected.equals(true);
+      } else {
+        return tbl.name.equals(cityName);
+      }
+    })).get();
     if (selectedCitiesResult.isEmpty) return null;
 
     final selectedCity = selectedCitiesResult[0];
-    final selectedSeasonsResult = await (select(season)..where((tbl) => tbl.isSelected.equals(true))).get();
+    final selectedSeasonsResult = await (select(season)..where((tbl) {
+      if (seasonName == null) {
+        return tbl.isSelected.equals(true);
+      } else {
+        return tbl.name.equals(seasonName);
+      }
+    })).get();
     if (selectedSeasonsResult.isEmpty) return null;
 
     final selectedCityTypeResult = await (select(cityType)..where((tbl) => tbl.id.equals(selectedCity.id))).get();
@@ -134,17 +186,16 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     final selectedCityType = selectedCityTypeResult[0];
 
     final selectedSeason = selectedSeasonsResult[0];
-    final List<MonthData> monthsResult = await (select(month)
-      ..where((tbl) => tbl.seasonId.equals(selectedSeason.id))).get();
+    final List<MonthData> monthsResult =
+    await (select(month)..where((tbl) => tbl.seasonId.equals(selectedSeason.id))).get();
     final monthsIds = monthsResult.map((e) => e.id);
     final temperatureResult = await (select(temperature)
       ..where((tbl) => tbl.monthId.isIn(monthsIds))
       ..where((tbl) => tbl.cityId.equals(selectedCity.id)))
-      .get();
+        .get();
     final monthsCount = monthsIds.length;
-    final averageTemperature = temperatureResult
-        .map((e) => e.value)
-        .reduce((value, element) => value + element) / monthsCount;
+    final averageTemperature =
+        temperatureResult.map((e) => e.value).reduce((value, element) => value + element) / monthsCount;
     return CityDataDomain(
       cityName: selectedCity.name,
       seasonName: selectedSeason.name,

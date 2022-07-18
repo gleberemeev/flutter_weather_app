@@ -1,8 +1,9 @@
+import 'dart:developer' as developer;
+
 import 'package:get/get.dart';
+import 'package:weather_app/data/model/domain/city_data_domain.dart';
 import 'package:weather_app/data/model/state/home_screen_state.dart';
 import 'package:weather_app/data/repository/city_repository.dart';
-
-import 'dart:developer' as developer;
 
 class HomeController extends GetxController {
   static const int temperatureTextLength = 5;
@@ -19,26 +20,55 @@ class HomeController extends GetxController {
     final selectedCityData = await repository.fetchSelectedCityData();
     if (selectedCityData == null) return;
 
-    final temperature = selectedCityData.temperature
-        .toString()
-        .substring(0, temperatureTextLength);
+    state.value = _mapFromDomain(cities, seasons, selectedCityData);
+  }
 
-    state.value = HomeScreenState(
+  void onSeasonChanged(String? season) async {
+    developer.log("on season changed to $season");
+    final String? previousSelectedSeason = state.value.selectedSeason;
+    if (season != null && previousSelectedSeason != null) {
+      await repository.setSeasonSelected(season, previousSelectedSeason);
+    }
+    if (season != null) {
+      final seasonChangedDomain = await repository.fetchCityDataBySeason(season);
+      final cities = await repository.fetchAllCities();
+      final seasons = await repository.fetchAllSeasons();
+      if (seasonChangedDomain != null) {
+        state.value = _mapFromDomain(cities, seasons, seasonChangedDomain);
+      }
+    }
+  }
+
+  void onCityChanged(String? city) async {
+    developer.log("on city changed to $city");
+    final String? previousSelectedCity = state.value.selectedCity;
+
+    if (city != null && previousSelectedCity != null) {
+      await repository.setCitySelected(city, previousSelectedCity);
+    }
+    if (city != null) {
+      final cityChangedDomain = await repository.fetchCityDataByCity(city);
+      final cities = await repository.fetchAllCities();
+      final seasons = await repository.fetchAllSeasons();
+      if (cityChangedDomain != null) {
+        state.value = _mapFromDomain(cities, seasons, cityChangedDomain);
+      }
+    }
+  }
+
+  HomeScreenState _mapFromDomain(
+      List<String> cities,
+      List<String> seasons,
+      CityDataDomain domainModel,
+      ) {
+    final temperature = domainModel.temperature.toString().substring(0, temperatureTextLength);
+
+    return HomeScreenState(
         cities: cities,
         seasons: seasons,
         temperatureIndicator: temperature,
-        cityType: selectedCityData.cityType,
-        selectedSeason: selectedCityData.seasonName,
-        selectedCity: selectedCityData.cityName);
-  }
-
-  void onSeasonChanged(String? season) {
-    developer.log("on season changed");
-    state.value = state.value.copyWith(selectedSeason: season);
-  }
-
-  void onCityChanged(String? city) {
-    developer.log("on city changed");
-    state.value = state.value.copyWith(selectedCity: city);
+        cityType: domainModel.cityType,
+        selectedSeason: domainModel.seasonName,
+        selectedCity: domainModel.cityName);
   }
 }
