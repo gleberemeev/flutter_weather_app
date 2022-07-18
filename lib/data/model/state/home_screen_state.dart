@@ -17,12 +17,12 @@ class HomeScreenState with _$HomeScreenState {
   }) = _HomeScreenState;
 
   static HomeScreenState _empty() {
-    return HomeScreenState(cities: List.of(["Bangkok", "Singapore", "Kuala Lumpur"]),
-        seasons: List.of(["Summer", "Fall", "Winter", "Spring"]),
-        temperatureIndicator: "30",
-        cityType: "medium",
-        selectedCity: "Bangkok",
-        selectedSeason: "Summer");
+    return HomeScreenState(cities: List.empty(),
+        seasons: List.empty(),
+        temperatureIndicator: "",
+        cityType: "",
+        selectedCity: "",
+        selectedSeason: "");
   }
 
   factory HomeScreenState.empty() {
