@@ -115,6 +115,10 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     });
   }
 
+  Future<List<String>> fetchAllMonths() async {
+    return await (select(month).map((p0) => p0.name)).get();
+  }
+
   Future<List<String>> fetchAllCities() async {
     return (select(city).map((p0) => p0.name)).get();
   }

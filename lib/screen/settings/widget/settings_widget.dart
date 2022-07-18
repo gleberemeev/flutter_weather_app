@@ -1,11 +1,32 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/screen/settings/controller/settings_controller.dart';
 
-class SettingsWidget extends StatelessWidget {
+class SettingsWidget extends StatefulWidget {
   final SettingsController controller = Get.find();
 
   SettingsWidget({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _SettingsWidgetState();
+  }
+}
+
+class _SettingsWidgetState extends State<SettingsWidget> {
+  final SettingsController controller = Get.find();
+  late Map<String, TextEditingController> textControllers = HashMap();
+
+  @override
+  void dispose() {
+    super.dispose();
+    textControllers.forEach((key, value) {
+      value.dispose();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +47,9 @@ class SettingsWidget extends StatelessWidget {
                       hint: const Text("Select city"),
                       items: cities
                           .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              ))
+                        value: value,
+                        child: Text(value),
+                      ))
                           .toList(),
                       onChanged: (String? newValue) {
                         controller.onCityChanged(newValue);
@@ -53,9 +74,9 @@ class SettingsWidget extends StatelessWidget {
                       hint: const Text("Select city type"),
                       items: cityTypes
                           .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              ))
+                        value: value,
+                        child: Text(value),
+                      ))
                           .toList(),
                       onChanged: (String? newValue) {
                         controller.onCityTypeChanged(newValue);
@@ -69,8 +90,11 @@ class SettingsWidget extends StatelessWidget {
                   final temperatures = controller.state.value.monthlyTemperatures;
                   return Column(
                     children: temperatures.entries.map<Widget>((entry) {
-                      final TextEditingController _controller = TextEditingController();
-                      _controller.text = entry.value.toString();
+                      final TextEditingController textController = textControllers.putIfAbsent(
+                          entry.key,
+                              () => TextEditingController()
+                      );
+                      textController.text = entry.value.toString();
                       return Column(
                         children: [
                           Text(
@@ -88,7 +112,11 @@ class SettingsWidget extends StatelessWidget {
                             ),
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.number,
-                            controller: _controller,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            controller: textController,
+                            onChanged: (value) {
+                              controller.onTemperatureChanged(entry.value, value);
+                            },
                           ),
                           const SizedBox(
                             height: 8,
@@ -127,4 +155,5 @@ class SettingsWidget extends StatelessWidget {
       ],
     );
   }
+
 }

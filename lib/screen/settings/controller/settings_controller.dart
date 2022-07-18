@@ -7,30 +7,24 @@ import 'package:weather_app/data/repository/city_repository.dart';
 
 class SettingsController extends GetxController {
   var state = Rx(SettingsScreenState.empty());
-  final CityRepository repository = Get.find();
+  final CityRepository _repository = Get.find();
 
   @override
   void onReady() async {
     super.onReady();
 
-    final CityDataDetailedDomain? model = await repository.fetchCityDetailedData();
+    final CityDataDetailedDomain? model = await _repository.fetchCityDetailedData();
     if (model == null) return;
 
     state.value = _mapFromDomain(model);
   }
 
-  void onBackPressed() {
-    Get.back();
+  Future<List<String>> fetchAllMonths() async {
+    return await _repository.fetchAllMonths();
   }
 
-  SettingsScreenState _mapFromDomain(CityDataDetailedDomain model) {
-    return SettingsScreenState(
-        cities: model.cities,
-        selectedCity: model.cityName,
-        cityTypes: model.cityTypes,
-        selectedCityType: model.cityType,
-        monthlyTemperatures: model.monthlyTemperatures
-    );
+  void onBackPressed() {
+    Get.back();
   }
 
   void onCityChanged(String? newValue) {
@@ -42,4 +36,18 @@ class SettingsController extends GetxController {
   }
 
   void saveData() {}
+
+  void onTemperatureChanged(int value, String newTemperature) {
+
+  }
+
+  SettingsScreenState _mapFromDomain(CityDataDetailedDomain model) {
+    return SettingsScreenState(
+        cities: model.cities,
+        selectedCity: model.cityName,
+        cityTypes: model.cityTypes,
+        selectedCityType: model.cityType,
+        monthlyTemperatures: model.monthlyTemperatures
+    );
+  }
 }
