@@ -11,6 +11,12 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.snackbarMessage.listen((message) {
+      if (message.isNotEmpty) {
+        final snackBar = SnackBar(content: Text("monthly temperature is $message"));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
     return Column(
       children: [
         Expanded(

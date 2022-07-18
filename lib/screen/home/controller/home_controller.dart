@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   static const int temperatureTextLength = 5;
 
   var state = Rx(HomeScreenState.empty());
+  var snackbarMessage = Rx("");
   final CityRepository repository = Get.find();
 
   @override
@@ -35,6 +36,9 @@ class HomeController extends GetxController {
       final cities = await repository.fetchAllCities();
       final seasons = await repository.fetchAllSeasons();
       if (seasonChangedDomain != null) {
+        snackbarMessage.value = seasonChangedDomain.temperature
+            .toString()
+            .truncate(max: temperatureTextLength);
         state.value = _mapFromDomain(cities, seasons, seasonChangedDomain);
       }
     }
@@ -52,6 +56,9 @@ class HomeController extends GetxController {
       final cities = await repository.fetchAllCities();
       final seasons = await repository.fetchAllSeasons();
       if (cityChangedDomain != null) {
+        snackbarMessage.value = cityChangedDomain.temperature
+            .toString()
+            .truncate(max: temperatureTextLength);
         state.value = _mapFromDomain(cities, seasons, cityChangedDomain);
       }
     }
