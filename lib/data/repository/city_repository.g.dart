@@ -11,4 +11,5 @@ mixin _$CityRepositoryMixin on DatabaseAccessor<WeatherAppDb> {
   $SeasonTable get season => attachedDatabase.season;
   $MonthTable get month => attachedDatabase.month;
   $TemperatureTable get temperature => attachedDatabase.temperature;
+  $CityTypeTable get cityType => attachedDatabase.cityType;
 }

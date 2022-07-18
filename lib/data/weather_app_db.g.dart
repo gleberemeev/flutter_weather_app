@@ -7,13 +7,13 @@ part of 'weather_app_db.dart';
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class CityData extends DataClass implements Insertable<CityData> {
+class CityTypeData extends DataClass implements Insertable<CityTypeData> {
   final int id;
   final String name;
-  CityData({required this.id, required this.name});
-  factory CityData.fromData(Map<String, dynamic> data, {String? prefix}) {
+  CityTypeData({required this.id, required this.name});
+  factory CityTypeData.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return CityData(
+    return CityTypeData(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       name: const StringType()
@@ -28,17 +28,17 @@ class CityData extends DataClass implements Insertable<CityData> {
     return map;
   }
 
-  CityCompanion toCompanion(bool nullToAbsent) {
-    return CityCompanion(
+  CityTypeCompanion toCompanion(bool nullToAbsent) {
+    return CityTypeCompanion(
       id: Value(id),
       name: Value(name),
     );
   }
 
-  factory CityData.fromJson(Map<String, dynamic> json,
+  factory CityTypeData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CityData(
+    return CityTypeData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
@@ -52,13 +52,13 @@ class CityData extends DataClass implements Insertable<CityData> {
     };
   }
 
-  CityData copyWith({int? id, String? name}) => CityData(
+  CityTypeData copyWith({int? id, String? name}) => CityTypeData(
         id: id ?? this.id,
         name: name ?? this.name,
       );
   @override
   String toString() {
-    return (StringBuffer('CityData(')
+    return (StringBuffer('CityTypeData(')
           ..write('id: $id, ')
           ..write('name: $name')
           ..write(')'))
@@ -70,21 +70,21 @@ class CityData extends DataClass implements Insertable<CityData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CityData && other.id == this.id && other.name == this.name);
+      (other is CityTypeData && other.id == this.id && other.name == this.name);
 }
 
-class CityCompanion extends UpdateCompanion<CityData> {
+class CityTypeCompanion extends UpdateCompanion<CityTypeData> {
   final Value<int> id;
   final Value<String> name;
-  const CityCompanion({
+  const CityTypeCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
-  CityCompanion.insert({
+  CityTypeCompanion.insert({
     this.id = const Value.absent(),
     required String name,
   }) : name = Value(name);
-  static Insertable<CityData> custom({
+  static Insertable<CityTypeData> custom({
     Expression<int>? id,
     Expression<String>? name,
   }) {
@@ -94,8 +94,8 @@ class CityCompanion extends UpdateCompanion<CityData> {
     });
   }
 
-  CityCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return CityCompanion(
+  CityTypeCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return CityTypeCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
     );
@@ -115,8 +115,233 @@ class CityCompanion extends UpdateCompanion<CityData> {
 
   @override
   String toString() {
+    return (StringBuffer('CityTypeCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CityTypeTable extends CityType
+    with TableInfo<$CityTypeTable, CityTypeData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CityTypeTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, name];
+  @override
+  String get aliasedName => _alias ?? 'city_type';
+  @override
+  String get actualTableName => 'city_type';
+  @override
+  VerificationContext validateIntegrity(Insertable<CityTypeData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CityTypeData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return CityTypeData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $CityTypeTable createAlias(String alias) {
+    return $CityTypeTable(attachedDatabase, alias);
+  }
+}
+
+class CityData extends DataClass implements Insertable<CityData> {
+  final int id;
+  final int cityTypeId;
+  final bool isSelected;
+  final String name;
+  CityData(
+      {required this.id,
+      required this.cityTypeId,
+      required this.isSelected,
+      required this.name});
+  factory CityData.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return CityData(
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      cityTypeId: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}city_type_id'])!,
+      isSelected: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_selected'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['city_type_id'] = Variable<int>(cityTypeId);
+    map['is_selected'] = Variable<bool>(isSelected);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  CityCompanion toCompanion(bool nullToAbsent) {
+    return CityCompanion(
+      id: Value(id),
+      cityTypeId: Value(cityTypeId),
+      isSelected: Value(isSelected),
+      name: Value(name),
+    );
+  }
+
+  factory CityData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CityData(
+      id: serializer.fromJson<int>(json['id']),
+      cityTypeId: serializer.fromJson<int>(json['cityTypeId']),
+      isSelected: serializer.fromJson<bool>(json['isSelected']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'cityTypeId': serializer.toJson<int>(cityTypeId),
+      'isSelected': serializer.toJson<bool>(isSelected),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  CityData copyWith(
+          {int? id, int? cityTypeId, bool? isSelected, String? name}) =>
+      CityData(
+        id: id ?? this.id,
+        cityTypeId: cityTypeId ?? this.cityTypeId,
+        isSelected: isSelected ?? this.isSelected,
+        name: name ?? this.name,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CityData(')
+          ..write('id: $id, ')
+          ..write('cityTypeId: $cityTypeId, ')
+          ..write('isSelected: $isSelected, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, cityTypeId, isSelected, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CityData &&
+          other.id == this.id &&
+          other.cityTypeId == this.cityTypeId &&
+          other.isSelected == this.isSelected &&
+          other.name == this.name);
+}
+
+class CityCompanion extends UpdateCompanion<CityData> {
+  final Value<int> id;
+  final Value<int> cityTypeId;
+  final Value<bool> isSelected;
+  final Value<String> name;
+  const CityCompanion({
+    this.id = const Value.absent(),
+    this.cityTypeId = const Value.absent(),
+    this.isSelected = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  CityCompanion.insert({
+    this.id = const Value.absent(),
+    required int cityTypeId,
+    required bool isSelected,
+    required String name,
+  })  : cityTypeId = Value(cityTypeId),
+        isSelected = Value(isSelected),
+        name = Value(name);
+  static Insertable<CityData> custom({
+    Expression<int>? id,
+    Expression<int>? cityTypeId,
+    Expression<bool>? isSelected,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (cityTypeId != null) 'city_type_id': cityTypeId,
+      if (isSelected != null) 'is_selected': isSelected,
+      if (name != null) 'name': name,
+    });
+  }
+
+  CityCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? cityTypeId,
+      Value<bool>? isSelected,
+      Value<String>? name}) {
+    return CityCompanion(
+      id: id ?? this.id,
+      cityTypeId: cityTypeId ?? this.cityTypeId,
+      isSelected: isSelected ?? this.isSelected,
+      name: name ?? this.name,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (cityTypeId.present) {
+      map['city_type_id'] = Variable<int>(cityTypeId.value);
+    }
+    if (isSelected.present) {
+      map['is_selected'] = Variable<bool>(isSelected.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
     return (StringBuffer('CityCompanion(')
           ..write('id: $id, ')
+          ..write('cityTypeId: $cityTypeId, ')
+          ..write('isSelected: $isSelected, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
@@ -135,13 +360,27 @@ class $CityTable extends City with TableInfo<$CityTable, CityData> {
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _cityTypeIdMeta = const VerificationMeta('cityTypeId');
+  @override
+  late final GeneratedColumn<int?> cityTypeId = GeneratedColumn<int?>(
+      'city_type_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'REFERENCES city_type (id)');
+  final VerificationMeta _isSelectedMeta = const VerificationMeta('isSelected');
+  @override
+  late final GeneratedColumn<bool?> isSelected = GeneratedColumn<bool?>(
+      'is_selected', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_selected IN (0, 1))');
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [id, cityTypeId, isSelected, name];
   @override
   String get aliasedName => _alias ?? 'city';
   @override
@@ -153,6 +392,22 @@ class $CityTable extends City with TableInfo<$CityTable, CityData> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('city_type_id')) {
+      context.handle(
+          _cityTypeIdMeta,
+          cityTypeId.isAcceptableOrUnknown(
+              data['city_type_id']!, _cityTypeIdMeta));
+    } else if (isInserting) {
+      context.missing(_cityTypeIdMeta);
+    }
+    if (data.containsKey('is_selected')) {
+      context.handle(
+          _isSelectedMeta,
+          isSelected.isAcceptableOrUnknown(
+              data['is_selected']!, _isSelectedMeta));
+    } else if (isInserting) {
+      context.missing(_isSelectedMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -179,13 +434,16 @@ class $CityTable extends City with TableInfo<$CityTable, CityData> {
 
 class SeasonData extends DataClass implements Insertable<SeasonData> {
   final int id;
+  final bool isSelected;
   final String name;
-  SeasonData({required this.id, required this.name});
+  SeasonData({required this.id, required this.isSelected, required this.name});
   factory SeasonData.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SeasonData(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      isSelected: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_selected'])!,
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
     );
@@ -194,6 +452,7 @@ class SeasonData extends DataClass implements Insertable<SeasonData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['is_selected'] = Variable<bool>(isSelected);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -201,6 +460,7 @@ class SeasonData extends DataClass implements Insertable<SeasonData> {
   SeasonCompanion toCompanion(bool nullToAbsent) {
     return SeasonCompanion(
       id: Value(id),
+      isSelected: Value(isSelected),
       name: Value(name),
     );
   }
@@ -210,6 +470,7 @@ class SeasonData extends DataClass implements Insertable<SeasonData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SeasonData(
       id: serializer.fromJson<int>(json['id']),
+      isSelected: serializer.fromJson<bool>(json['isSelected']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -218,55 +479,69 @@ class SeasonData extends DataClass implements Insertable<SeasonData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'isSelected': serializer.toJson<bool>(isSelected),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  SeasonData copyWith({int? id, String? name}) => SeasonData(
+  SeasonData copyWith({int? id, bool? isSelected, String? name}) => SeasonData(
         id: id ?? this.id,
+        isSelected: isSelected ?? this.isSelected,
         name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('SeasonData(')
           ..write('id: $id, ')
+          ..write('isSelected: $isSelected, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, isSelected, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is SeasonData && other.id == this.id && other.name == this.name);
+      (other is SeasonData &&
+          other.id == this.id &&
+          other.isSelected == this.isSelected &&
+          other.name == this.name);
 }
 
 class SeasonCompanion extends UpdateCompanion<SeasonData> {
   final Value<int> id;
+  final Value<bool> isSelected;
   final Value<String> name;
   const SeasonCompanion({
     this.id = const Value.absent(),
+    this.isSelected = const Value.absent(),
     this.name = const Value.absent(),
   });
   SeasonCompanion.insert({
     this.id = const Value.absent(),
+    required bool isSelected,
     required String name,
-  }) : name = Value(name);
+  })  : isSelected = Value(isSelected),
+        name = Value(name);
   static Insertable<SeasonData> custom({
     Expression<int>? id,
+    Expression<bool>? isSelected,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (isSelected != null) 'is_selected': isSelected,
       if (name != null) 'name': name,
     });
   }
 
-  SeasonCompanion copyWith({Value<int>? id, Value<String>? name}) {
+  SeasonCompanion copyWith(
+      {Value<int>? id, Value<bool>? isSelected, Value<String>? name}) {
     return SeasonCompanion(
       id: id ?? this.id,
+      isSelected: isSelected ?? this.isSelected,
       name: name ?? this.name,
     );
   }
@@ -276,6 +551,9 @@ class SeasonCompanion extends UpdateCompanion<SeasonData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (isSelected.present) {
+      map['is_selected'] = Variable<bool>(isSelected.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -287,6 +565,7 @@ class SeasonCompanion extends UpdateCompanion<SeasonData> {
   String toString() {
     return (StringBuffer('SeasonCompanion(')
           ..write('id: $id, ')
+          ..write('isSelected: $isSelected, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
@@ -305,13 +584,20 @@ class $SeasonTable extends Season with TableInfo<$SeasonTable, SeasonData> {
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _isSelectedMeta = const VerificationMeta('isSelected');
+  @override
+  late final GeneratedColumn<bool?> isSelected = GeneratedColumn<bool?>(
+      'is_selected', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_selected IN (0, 1))');
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [id, isSelected, name];
   @override
   String get aliasedName => _alias ?? 'season';
   @override
@@ -323,6 +609,14 @@ class $SeasonTable extends Season with TableInfo<$SeasonTable, SeasonData> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('is_selected')) {
+      context.handle(
+          _isSelectedMeta,
+          isSelected.isAcceptableOrUnknown(
+              data['is_selected']!, _isSelectedMeta));
+    } else if (isInserting) {
+      context.missing(_isSelectedMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -807,6 +1101,7 @@ class $TemperatureTable extends Temperature
 
 abstract class _$WeatherAppDb extends GeneratedDatabase {
   _$WeatherAppDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  late final $CityTypeTable cityType = $CityTypeTable(this);
   late final $CityTable city = $CityTable(this);
   late final $SeasonTable season = $SeasonTable(this);
   late final $MonthTable month = $MonthTable(this);
@@ -815,5 +1110,5 @@ abstract class _$WeatherAppDb extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [city, season, month, temperature];
+      [cityType, city, season, month, temperature];
 }

@@ -9,9 +9,11 @@ import 'package:weather_app/data/model/db/month_model_db.dart';
 import 'package:weather_app/data/model/db/season_model_db.dart';
 import 'package:weather_app/data/model/db/temperature_model_db.dart';
 
+import 'model/db/city_type_db.dart';
+
 part 'weather_app_db.g.dart';
 
-@DriftDatabase(tables: [City, Season, Month, Temperature])
+@DriftDatabase(tables: [City, Season, Month, Temperature, Season, CityType])
 class WeatherAppDb extends _$WeatherAppDb {
   WeatherAppDb() : super(_openConnection());
 

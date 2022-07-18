@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/data/repository/city_repository.dart';
+import 'package:weather_app/data/weather_app_db.dart';
 import 'package:weather_app/screen/home/home_screen.dart';
 
 void main() {
+  final database = WeatherAppDb();
+  Get.put(database);
+  Get.put(CityRepository(database));
   runApp(const MyApp());
 }
 
