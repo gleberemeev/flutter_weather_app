@@ -94,7 +94,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           entry.key,
                               () => TextEditingController()
                       );
-                      textController.text = entry.value.toString();
+                      if (textController.text != entry.value.toString()) {
+                        textController.text = entry.value.toString();
+                      }
                       return Column(
                         children: [
                           Text(
@@ -115,7 +117,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                             controller: textController,
                             onChanged: (value) {
-                              controller.onTemperatureChanged(entry.value, value);
+                              controller.onTemperatureChanged(entry.key, value);
                             },
                           ),
                           const SizedBox(

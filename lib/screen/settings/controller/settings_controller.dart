@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_detailed_domain.dart';
 import 'package:weather_app/data/model/state/settings_screen_state.dart';
@@ -13,32 +11,54 @@ class SettingsController extends GetxController {
   void onReady() async {
     super.onReady();
 
-    final CityDataDetailedDomain? model = await _repository.fetchCityDetailedData();
-    if (model == null) return;
-
-    state.value = _mapFromDomain(model);
-  }
-
-  Future<List<String>> fetchAllMonths() async {
-    return await _repository.fetchAllMonths();
+    await _fetchDetailedData();
   }
 
   void onBackPressed() {
     Get.back();
   }
 
-  void onCityChanged(String? newValue) {
-    //todo on city changed
+  void onCityChanged(String? newValue) async {
+    if (newValue == null) return;
+
+    final currentSelectedCity = state.value.selectedCity;
+    _repository.setCitySelected(newValue, currentSelectedCity);
+    await _fetchDetailedData();
   }
 
   void onCityTypeChanged(String? newValue) {
+    if (newValue == null) return;
 
+    final oldState = state.value.copyWith(selectedCityType: newValue);
+    state.value = oldState;
   }
 
-  void saveData() {}
+  void saveData() {
 
-  void onTemperatureChanged(int value, String newTemperature) {
+    Get.back();
+  }
 
+  void onTemperatureChanged(String month, String newTemperature) {
+    final oldState = state.value;
+    final temperatureMap = oldState.monthlyTemperatures.map((key, value) {
+      if (key == month) {
+        return MapEntry(key, int.parse(newTemperature));
+      } else {
+        return MapEntry(key, value);
+      }
+    });
+
+    temperatureMap[month] = int.parse(newTemperature);
+    state.value = oldState.copyWith(
+      monthlyTemperatures: temperatureMap,
+    );
+  }
+
+  Future<void> _fetchDetailedData() async {
+    final CityDataDetailedDomain? model = await _repository.fetchCityDetailedData();
+    if (model == null) return;
+
+    state.value = _mapFromDomain(model);
   }
 
   SettingsScreenState _mapFromDomain(CityDataDetailedDomain model) {
@@ -47,7 +67,6 @@ class SettingsController extends GetxController {
         selectedCity: model.cityName,
         cityTypes: model.cityTypes,
         selectedCityType: model.cityType,
-        monthlyTemperatures: model.monthlyTemperatures
-    );
+        monthlyTemperatures: model.monthlyTemperatures);
   }
 }
