@@ -16,11 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsScreenState {
-  List<String> get cities => throw _privateConstructorUsedError;
+  Iterable<String> get cities => throw _privateConstructorUsedError;
   String get selectedCity => throw _privateConstructorUsedError;
-  List<String> get cityTypes => throw _privateConstructorUsedError;
+  Iterable<String> get cityTypes => throw _privateConstructorUsedError;
   String get selectedCityType => throw _privateConstructorUsedError;
-  Map<String, Int> get monthlyTemperatures =>
+  Map<String, int> get monthlyTemperatures =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,11 +34,11 @@ abstract class $SettingsScreenStateCopyWith<$Res> {
           SettingsScreenState value, $Res Function(SettingsScreenState) then) =
       _$SettingsScreenStateCopyWithImpl<$Res>;
   $Res call(
-      {List<String> cities,
+      {Iterable<String> cities,
       String selectedCity,
-      List<String> cityTypes,
+      Iterable<String> cityTypes,
       String selectedCityType,
-      Map<String, Int> monthlyTemperatures});
+      Map<String, int> monthlyTemperatures});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$SettingsScreenStateCopyWithImpl<$Res>
       cities: cities == freezed
           ? _value.cities
           : cities // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Iterable<String>,
       selectedCity: selectedCity == freezed
           ? _value.selectedCity
           : selectedCity // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,7 @@ class _$SettingsScreenStateCopyWithImpl<$Res>
       cityTypes: cityTypes == freezed
           ? _value.cityTypes
           : cityTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Iterable<String>,
       selectedCityType: selectedCityType == freezed
           ? _value.selectedCityType
           : selectedCityType // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,7 @@ class _$SettingsScreenStateCopyWithImpl<$Res>
       monthlyTemperatures: monthlyTemperatures == freezed
           ? _value.monthlyTemperatures
           : monthlyTemperatures // ignore: cast_nullable_to_non_nullable
-              as Map<String, Int>,
+              as Map<String, int>,
     ));
   }
 }
@@ -91,11 +91,11 @@ abstract class _$$_SettingsScreenStateCopyWith<$Res>
       __$$_SettingsScreenStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<String> cities,
+      {Iterable<String> cities,
       String selectedCity,
-      List<String> cityTypes,
+      Iterable<String> cityTypes,
       String selectedCityType,
-      Map<String, Int> monthlyTemperatures});
+      Map<String, int> monthlyTemperatures});
 }
 
 /// @nodoc
@@ -119,17 +119,17 @@ class __$$_SettingsScreenStateCopyWithImpl<$Res>
   }) {
     return _then(_$_SettingsScreenState(
       cities: cities == freezed
-          ? _value._cities
+          ? _value.cities
           : cities // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Iterable<String>,
       selectedCity: selectedCity == freezed
           ? _value.selectedCity
           : selectedCity // ignore: cast_nullable_to_non_nullable
               as String,
       cityTypes: cityTypes == freezed
-          ? _value._cityTypes
+          ? _value.cityTypes
           : cityTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Iterable<String>,
       selectedCityType: selectedCityType == freezed
           ? _value.selectedCityType
           : selectedCityType // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ class __$$_SettingsScreenStateCopyWithImpl<$Res>
       monthlyTemperatures: monthlyTemperatures == freezed
           ? _value._monthlyTemperatures
           : monthlyTemperatures // ignore: cast_nullable_to_non_nullable
-              as Map<String, Int>,
+              as Map<String, int>,
     ));
   }
 }
@@ -146,36 +146,24 @@ class __$$_SettingsScreenStateCopyWithImpl<$Res>
 
 class _$_SettingsScreenState implements _SettingsScreenState {
   const _$_SettingsScreenState(
-      {required final List<String> cities,
+      {required this.cities,
       required this.selectedCity,
-      required final List<String> cityTypes,
+      required this.cityTypes,
       required this.selectedCityType,
-      required final Map<String, Int> monthlyTemperatures})
-      : _cities = cities,
-        _cityTypes = cityTypes,
-        _monthlyTemperatures = monthlyTemperatures;
+      required final Map<String, int> monthlyTemperatures})
+      : _monthlyTemperatures = monthlyTemperatures;
 
-  final List<String> _cities;
   @override
-  List<String> get cities {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cities);
-  }
-
+  final Iterable<String> cities;
   @override
   final String selectedCity;
-  final List<String> _cityTypes;
   @override
-  List<String> get cityTypes {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cityTypes);
-  }
-
+  final Iterable<String> cityTypes;
   @override
   final String selectedCityType;
-  final Map<String, Int> _monthlyTemperatures;
+  final Map<String, int> _monthlyTemperatures;
   @override
-  Map<String, Int> get monthlyTemperatures {
+  Map<String, int> get monthlyTemperatures {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_monthlyTemperatures);
   }
@@ -190,11 +178,10 @@ class _$_SettingsScreenState implements _SettingsScreenState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingsScreenState &&
-            const DeepCollectionEquality().equals(other._cities, _cities) &&
+            const DeepCollectionEquality().equals(other.cities, cities) &&
             const DeepCollectionEquality()
                 .equals(other.selectedCity, selectedCity) &&
-            const DeepCollectionEquality()
-                .equals(other._cityTypes, _cityTypes) &&
+            const DeepCollectionEquality().equals(other.cityTypes, cityTypes) &&
             const DeepCollectionEquality()
                 .equals(other.selectedCityType, selectedCityType) &&
             const DeepCollectionEquality()
@@ -204,9 +191,9 @@ class _$_SettingsScreenState implements _SettingsScreenState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_cities),
+      const DeepCollectionEquality().hash(cities),
       const DeepCollectionEquality().hash(selectedCity),
-      const DeepCollectionEquality().hash(_cityTypes),
+      const DeepCollectionEquality().hash(cityTypes),
       const DeepCollectionEquality().hash(selectedCityType),
       const DeepCollectionEquality().hash(_monthlyTemperatures));
 
@@ -219,23 +206,23 @@ class _$_SettingsScreenState implements _SettingsScreenState {
 
 abstract class _SettingsScreenState implements SettingsScreenState {
   const factory _SettingsScreenState(
-          {required final List<String> cities,
+          {required final Iterable<String> cities,
           required final String selectedCity,
-          required final List<String> cityTypes,
+          required final Iterable<String> cityTypes,
           required final String selectedCityType,
-          required final Map<String, Int> monthlyTemperatures}) =
+          required final Map<String, int> monthlyTemperatures}) =
       _$_SettingsScreenState;
 
   @override
-  List<String> get cities;
+  Iterable<String> get cities;
   @override
   String get selectedCity;
   @override
-  List<String> get cityTypes;
+  Iterable<String> get cityTypes;
   @override
   String get selectedCityType;
   @override
-  Map<String, Int> get monthlyTemperatures;
+  Map<String, int> get monthlyTemperatures;
   @override
   @JsonKey(ignore: true)
   _$$_SettingsScreenStateCopyWith<_$_SettingsScreenState> get copyWith =>

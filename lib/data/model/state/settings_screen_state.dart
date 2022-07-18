@@ -11,11 +11,11 @@ class SettingsScreenState with _$SettingsScreenState {
   static final SettingsScreenState _cache = _empty();
 
   const factory SettingsScreenState({
-    required List<String> cities,
+    required Iterable<String> cities,
     required String selectedCity,
-    required List<String> cityTypes,
+    required Iterable<String> cityTypes,
     required String selectedCityType,
-    required Map<String, Int> monthlyTemperatures,
+    required Map<String, int> monthlyTemperatures,
   }) = _SettingsScreenState;
 
   static SettingsScreenState _empty() {

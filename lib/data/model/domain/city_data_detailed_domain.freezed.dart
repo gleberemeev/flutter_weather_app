@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CityDataDetailedDomain {
+  Iterable<String> get cities => throw _privateConstructorUsedError;
+  Iterable<String> get cityTypes => throw _privateConstructorUsedError;
   String get cityName => throw _privateConstructorUsedError;
   String get cityType => throw _privateConstructorUsedError;
-  Map<String, Double> get monthlyTemperatures =>
+  Map<String, int> get monthlyTemperatures =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,9 +34,11 @@ abstract class $CityDataDetailedDomainCopyWith<$Res> {
           $Res Function(CityDataDetailedDomain) then) =
       _$CityDataDetailedDomainCopyWithImpl<$Res>;
   $Res call(
-      {String cityName,
+      {Iterable<String> cities,
+      Iterable<String> cityTypes,
+      String cityName,
       String cityType,
-      Map<String, Double> monthlyTemperatures});
+      Map<String, int> monthlyTemperatures});
 }
 
 /// @nodoc
@@ -48,11 +52,21 @@ class _$CityDataDetailedDomainCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? cities = freezed,
+    Object? cityTypes = freezed,
     Object? cityName = freezed,
     Object? cityType = freezed,
     Object? monthlyTemperatures = freezed,
   }) {
     return _then(_value.copyWith(
+      cities: cities == freezed
+          ? _value.cities
+          : cities // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
+      cityTypes: cityTypes == freezed
+          ? _value.cityTypes
+          : cityTypes // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
       cityName: cityName == freezed
           ? _value.cityName
           : cityName // ignore: cast_nullable_to_non_nullable
@@ -64,7 +78,7 @@ class _$CityDataDetailedDomainCopyWithImpl<$Res>
       monthlyTemperatures: monthlyTemperatures == freezed
           ? _value.monthlyTemperatures
           : monthlyTemperatures // ignore: cast_nullable_to_non_nullable
-              as Map<String, Double>,
+              as Map<String, int>,
     ));
   }
 }
@@ -77,9 +91,11 @@ abstract class _$$_CityDataDetailedDomainCopyWith<$Res>
       __$$_CityDataDetailedDomainCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String cityName,
+      {Iterable<String> cities,
+      Iterable<String> cityTypes,
+      String cityName,
       String cityType,
-      Map<String, Double> monthlyTemperatures});
+      Map<String, int> monthlyTemperatures});
 }
 
 /// @nodoc
@@ -96,11 +112,21 @@ class __$$_CityDataDetailedDomainCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? cities = freezed,
+    Object? cityTypes = freezed,
     Object? cityName = freezed,
     Object? cityType = freezed,
     Object? monthlyTemperatures = freezed,
   }) {
     return _then(_$_CityDataDetailedDomain(
+      cities: cities == freezed
+          ? _value.cities
+          : cities // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
+      cityTypes: cityTypes == freezed
+          ? _value.cityTypes
+          : cityTypes // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
       cityName: cityName == freezed
           ? _value.cityName
           : cityName // ignore: cast_nullable_to_non_nullable
@@ -112,7 +138,7 @@ class __$$_CityDataDetailedDomainCopyWithImpl<$Res>
       monthlyTemperatures: monthlyTemperatures == freezed
           ? _value._monthlyTemperatures
           : monthlyTemperatures // ignore: cast_nullable_to_non_nullable
-              as Map<String, Double>,
+              as Map<String, int>,
     ));
   }
 }
@@ -121,25 +147,31 @@ class __$$_CityDataDetailedDomainCopyWithImpl<$Res>
 
 class _$_CityDataDetailedDomain implements _CityDataDetailedDomain {
   const _$_CityDataDetailedDomain(
-      {required this.cityName,
+      {required this.cities,
+      required this.cityTypes,
+      required this.cityName,
       required this.cityType,
-      required final Map<String, Double> monthlyTemperatures})
+      required final Map<String, int> monthlyTemperatures})
       : _monthlyTemperatures = monthlyTemperatures;
 
+  @override
+  final Iterable<String> cities;
+  @override
+  final Iterable<String> cityTypes;
   @override
   final String cityName;
   @override
   final String cityType;
-  final Map<String, Double> _monthlyTemperatures;
+  final Map<String, int> _monthlyTemperatures;
   @override
-  Map<String, Double> get monthlyTemperatures {
+  Map<String, int> get monthlyTemperatures {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_monthlyTemperatures);
   }
 
   @override
   String toString() {
-    return 'CityDataDetailedDomain(cityName: $cityName, cityType: $cityType, monthlyTemperatures: $monthlyTemperatures)';
+    return 'CityDataDetailedDomain(cities: $cities, cityTypes: $cityTypes, cityName: $cityName, cityType: $cityType, monthlyTemperatures: $monthlyTemperatures)';
   }
 
   @override
@@ -147,6 +179,8 @@ class _$_CityDataDetailedDomain implements _CityDataDetailedDomain {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CityDataDetailedDomain &&
+            const DeepCollectionEquality().equals(other.cities, cities) &&
+            const DeepCollectionEquality().equals(other.cityTypes, cityTypes) &&
             const DeepCollectionEquality().equals(other.cityName, cityName) &&
             const DeepCollectionEquality().equals(other.cityType, cityType) &&
             const DeepCollectionEquality()
@@ -156,6 +190,8 @@ class _$_CityDataDetailedDomain implements _CityDataDetailedDomain {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(cities),
+      const DeepCollectionEquality().hash(cityTypes),
       const DeepCollectionEquality().hash(cityName),
       const DeepCollectionEquality().hash(cityType),
       const DeepCollectionEquality().hash(_monthlyTemperatures));
@@ -169,17 +205,23 @@ class _$_CityDataDetailedDomain implements _CityDataDetailedDomain {
 
 abstract class _CityDataDetailedDomain implements CityDataDetailedDomain {
   const factory _CityDataDetailedDomain(
-          {required final String cityName,
+          {required final Iterable<String> cities,
+          required final Iterable<String> cityTypes,
+          required final String cityName,
           required final String cityType,
-          required final Map<String, Double> monthlyTemperatures}) =
+          required final Map<String, int> monthlyTemperatures}) =
       _$_CityDataDetailedDomain;
 
+  @override
+  Iterable<String> get cities;
+  @override
+  Iterable<String> get cityTypes;
   @override
   String get cityName;
   @override
   String get cityType;
   @override
-  Map<String, Double> get monthlyTemperatures;
+  Map<String, int> get monthlyTemperatures;
   @override
   @JsonKey(ignore: true)
   _$$_CityDataDetailedDomainCopyWith<_$_CityDataDetailedDomain> get copyWith =>

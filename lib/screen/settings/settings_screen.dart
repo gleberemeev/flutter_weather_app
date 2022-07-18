@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
               controller.onBackPressed();
             },
           )),
-      body: const SafeArea(
+      body: SafeArea(
         child: SettingsWidget(),
       ),
     );

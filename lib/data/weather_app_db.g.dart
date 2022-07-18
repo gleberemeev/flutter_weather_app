@@ -140,7 +140,9 @@ class $CityTypeTable extends CityType
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: const StringType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   @override
   List<GeneratedColumn> get $columns => [id, name];
   @override
@@ -378,7 +380,9 @@ class $CityTable extends City with TableInfo<$CityTable, CityData> {
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: const StringType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   @override
   List<GeneratedColumn> get $columns => [id, cityTypeId, isSelected, name];
   @override
@@ -595,7 +599,9 @@ class $SeasonTable extends Season with TableInfo<$SeasonTable, SeasonData> {
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: const StringType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   @override
   List<GeneratedColumn> get $columns => [id, isSelected, name];
   @override
@@ -804,7 +810,9 @@ class $MonthTable extends Month with TableInfo<$MonthTable, MonthData> {
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: const StringType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   @override
   List<GeneratedColumn> get $columns => [id, seasonId, name];
   @override

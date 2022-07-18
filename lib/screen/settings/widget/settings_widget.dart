@@ -7,7 +7,7 @@ import 'package:weather_app/screen/settings/controller/settings_controller.dart'
 class SettingsWidget extends StatelessWidget {
   final SettingsController controller = Get.find();
 
-  const SettingsWidget({Key? key}) : super(key: key);
+  SettingsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +19,12 @@ class SettingsWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Obx(() {
-                List<String>? cities = controller.state.value.cities;
+                Iterable<String>? cities = controller.state.value.cities;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DropdownButton(
                     isExpanded: true,
                     hint: const Text("Select city"),
-                    disabledHint: const Text("Open Settings screen to add a new city"),
                     items: cities
                         .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
                       value: value,
@@ -40,9 +39,40 @@ class SettingsWidget extends StatelessWidget {
                 );
               }),
               const SizedBox(height: 8),
-              Obx(() => Text("average temperature is ${controller.state.value.temperatureIndicator} degrees")),
+              const Text("Select city type"),
+              Obx(() {
+                Iterable<String>? cityTypes = controller.state.value.cityTypes;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: DropdownButton(
+                    isExpanded: true,
+                    hint: const Text("Select city type"),
+                    items: cityTypes
+                        .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    ))
+                        .toList(),
+                    onChanged: (String? newValue) {
+                      controller.onCityTypeChanged(newValue);
+                    },
+                    value: controller.state.value.selectedCityType,
+                  ),
+                );
+              }),
               const SizedBox(height: 8),
-              Obx(() => Text("this is ${controller.state.value.cityType} city")),
+              Obx(() {
+                final temperatures = controller.state.value.monthlyTemperatures;
+                return Column(
+                  children: temperatures.entries.map<Widget>((entry) => Row(
+                      children: [
+                        Text(entry.key),
+                        Text(entry.value.toString()),
+                      ],
+                    )
+                  ).toList(),
+                );
+              }),
             ],
           ),
         ),
@@ -51,7 +81,7 @@ class SettingsWidget extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  controller.navigateToSettings();
+                  controller.saveData();
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),
@@ -62,7 +92,7 @@ class SettingsWidget extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  "Open settings",
+                  "Save Data",
                 ),
               ),
             ),
