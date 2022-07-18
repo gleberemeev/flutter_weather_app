@@ -31,8 +31,8 @@ class SettingsController extends GetxController {
   void onCityTypeChanged(String? newValue) {
     if (newValue == null) return;
 
-    final oldState = state.value.copyWith(selectedCityType: newValue);
-    state.value = oldState;
+    final newState = state.value.copyWith(selectedCityType: newValue);
+    state.value = newState;
   }
 
   void saveData() async {

@@ -203,7 +203,7 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     if (selectedSeasonsResult.isEmpty) return null;
 
     final selectedCityTypeResult = await (select(cityType)
-      ..where((tbl) => tbl.id.equals(selectedCity.id))).get();
+      ..where((tbl) => tbl.id.equals(selectedCity.cityTypeId))).get();
     if (selectedCityTypeResult.isEmpty) return null;
     final selectedCityType = selectedCityTypeResult[0];
 
@@ -233,7 +233,7 @@ class CityRepository extends DatabaseAccessor<WeatherAppDb> with _$CityRepositor
     final selectedCity = selectedCitiesResult[0];
 
     final selectedCityTypeResult = await (select(cityType)
-      ..where((tbl) => tbl.id.equals(selectedCity.id))).get();
+      ..where((tbl) => tbl.id.equals(selectedCity.cityTypeId))).get();
     if (selectedCityTypeResult.isEmpty) return null;
     final selectedCityType = selectedCityTypeResult[0];
 
