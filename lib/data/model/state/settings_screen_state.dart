@@ -1,4 +1,5 @@
 
+import 'dart:collection';
 import 'dart:ffi';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,18 +13,18 @@ class SettingsScreenState with _$SettingsScreenState {
   const factory SettingsScreenState({
     required List<String> cities,
     required String selectedCity,
-    required List<String> seasons,
+    required List<String> cityTypes,
     required String selectedCityType,
-    required Map<String, Double> monthlyTemperatures,
+    required Map<String, Int> monthlyTemperatures,
   }) = _SettingsScreenState;
 
   static SettingsScreenState _empty() {
     return SettingsScreenState(
         cities: List.empty(),
         selectedCity: "",
-        seasons: List.empty(),
+        cityTypes: List.empty(),
         selectedCityType: "",
-        monthlyTemperatures: Map.identity()
+        monthlyTemperatures: HashMap()
     );
   }
 

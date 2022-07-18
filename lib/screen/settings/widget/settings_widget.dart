@@ -40,25 +40,6 @@ class SettingsWidget extends StatelessWidget {
                 );
               }),
               const SizedBox(height: 8),
-              Obx(() {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DropdownButton(
-                      isExpanded: true,
-                      hint: const Text("Select a season"),
-                      items: controller.state.value.seasons
-                          .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      ))
-                          .toList(),
-                      onChanged: (String? newValue) {
-                        controller.onSeasonChanged(newValue);
-                      },
-                      value: controller.state.value.selectedSeason),
-                );
-              }),
-              const SizedBox(height: 8),
               Obx(() => Text("average temperature is ${controller.state.value.temperatureIndicator} degrees")),
               const SizedBox(height: 8),
               Obx(() => Text("this is ${controller.state.value.cityType} city")),
