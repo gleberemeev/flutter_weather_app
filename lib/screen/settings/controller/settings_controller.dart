@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_detailed_domain.dart';
 import 'package:weather_app/data/model/state/settings_screen_state.dart';
@@ -34,7 +35,10 @@ class SettingsController extends GetxController {
   }
 
   void saveData() {
-
+    Fluttertoast.showToast(
+      msg: "Your data was saved",
+      toastLength: Toast.LENGTH_LONG,
+    );
     Get.back();
   }
 
