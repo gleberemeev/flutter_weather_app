@@ -2,18 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/screen/home/controller/home_controller.dart';
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => HomeState();
+}
+
+class HomeState extends State<HomeWidget> {
   final HomeController controller = Get.find();
 
-  HomeWidget({
-    Key? key,
-  }) : super(key: key);
+  @override
+  void dispose() {
+    super.dispose();
+    controller.snackBarMessages.clearObservers();
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller.snackbarMessage.listen((message) {
-      if (message.isNotEmpty) {
-        final snackBar = SnackBar(content: Text("monthly temperature is $message"));
+    controller.snackBarMessages.addObserver((text) {
+      if (text.isNotEmpty) {
+        final snackBar = SnackBar(content: Text("monthly temperature is $text"));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
@@ -34,9 +43,9 @@ class HomeWidget extends StatelessWidget {
                     disabledHint: const Text("Open Settings screen to add a new city"),
                     items: cities
                         .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-                              value: value,
-                              child: Text(value),
-                            ))
+                      value: value,
+                      child: Text(value),
+                    ))
                         .toList(),
                     onChanged: (String? newValue) {
                       controller.onCityChanged(newValue);
@@ -54,9 +63,9 @@ class HomeWidget extends StatelessWidget {
                       hint: const Text("Select a season"),
                       items: controller.state.value.seasons
                           .map<DropdownMenuItem<String>>((value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              ))
+                        value: value,
+                        child: Text(value),
+                      ))
                           .toList(),
                       onChanged: (String? newValue) {
                         controller.onSeasonChanged(newValue);
@@ -110,4 +119,5 @@ class HomeWidget extends StatelessWidget {
       ],
     );
   }
+
 }
