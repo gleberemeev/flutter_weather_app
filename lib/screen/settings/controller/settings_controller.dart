@@ -25,7 +25,7 @@ class SettingsController extends GetxController {
     if (newValue == null) return;
 
     final currentSelectedCity = state.value.selectedCity;
-    _repository.setCitySelected(newValue, currentSelectedCity);
+    await _repository.setCitySelected(newValue, currentSelectedCity);
     await _fetchDetailedData();
   }
 

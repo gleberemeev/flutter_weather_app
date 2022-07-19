@@ -257,7 +257,7 @@ class CityRepositoryImpl extends DatabaseAccessor<WeatherAppDb> with _$CityRepos
     final Map<String, int> temperatureMap = {
       for (var item in temperatureResult)
         monthsResult
-            .firstWhere((element) => element.id == item.id)
+            .firstWhere((element) => element.id == item.monthId)
             .name: item.value
     };
 
