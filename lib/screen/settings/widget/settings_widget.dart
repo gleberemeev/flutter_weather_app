@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:weather_app/screen/settings/controller/settings_controller.dart';
 
 class SettingsWidget extends StatefulWidget {
-  final SettingsController controller = Get.find();
 
   SettingsWidget({Key? key}) : super(key: key);
 
@@ -17,7 +16,6 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
-  final SettingsController controller = Get.find();
   late Map<String, TextEditingController> textControllers = HashMap();
 
   @override
@@ -30,6 +28,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SettingsController());
+
     return Column(
       children: [
         Expanded(

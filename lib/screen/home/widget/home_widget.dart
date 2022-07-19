@@ -10,16 +10,17 @@ class HomeWidget extends StatefulWidget {
 }
 
 class HomeState extends State<HomeWidget> {
-  final HomeController controller = Get.find();
-
   @override
   void dispose() {
     super.dispose();
+    final HomeController controller = Get.find();
     controller.snackBarMessages.clearObservers();
   }
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.put(HomeController());
+
     controller.snackBarMessages.addObserver((text) {
       if (text.isNotEmpty) {
         final snackBar = SnackBar(content: Text("monthly temperature is $text"));

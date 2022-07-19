@@ -4,12 +4,12 @@ import 'package:weather_app/screen/settings/controller/settings_controller.dart'
 import 'package:weather_app/screen/settings/widget/settings_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final controller = Get.put(SettingsController());
-
-  SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SettingsController());
+
     return Scaffold(
       appBar: AppBar(
           title: const Text(
