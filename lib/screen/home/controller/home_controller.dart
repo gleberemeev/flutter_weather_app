@@ -11,34 +11,34 @@ import '../../../data/repository/city_repository.dart';
 class HomeController extends GetxController {
   var state = Rx(HomeScreenState.empty());
   var snackbarMessage = Rx("");
-  var format = Rx(TemperatureDisplayFormat.celsius);
-  final TemperatureDisplayDecorator temperatureDisplayDecorator = TemperatureDisplayDecorator();
-  final CityRepository repository = Get.find();
+  final _format = Rx(TemperatureDisplayFormat.celsius);
+  final TemperatureDisplayDecorator _temperatureDisplayDecorator = TemperatureDisplayDecorator();
+  final CityRepository _repository = Get.find();
 
   @override
   void onReady() async {
     super.onReady();
-    await repository.populateDatabaseIfNeeded();
-    final cities = await repository.fetchAllCities();
-    final seasons = await repository.fetchAllSeasons();
-    final selectedCityData = await repository.fetchSelectedCityData();
+    await _repository.populateDatabaseIfNeeded();
+    final cities = await _repository.fetchAllCities();
+    final seasons = await _repository.fetchAllSeasons();
+    final selectedCityData = await _repository.fetchSelectedCityData();
     if (selectedCityData == null) return;
 
-    state.value = _mapFromDomain(cities, seasons, selectedCityData, format.value);
+    state.value = _mapFromDomain(cities, seasons, selectedCityData, _format.value);
 
-    repository.listenCityUpdates().listen((event) {
+    _repository.listenCityUpdates().listen((event) {
       _updateSelectedCityData();
     });
-    repository.listenTemperatureUpdates().listen((event) {
+    _repository.listenTemperatureUpdates().listen((event) {
       _updateSelectedCityData();
     });
-    format.listen((newValue) {
+    _format.listen((newValue) {
       _updateWithTemperatureFormat(newValue);
     });
   }
 
   void _updateSelectedCityData() async {
-    final selectedCityData = await repository.fetchSelectedCityData();
+    final selectedCityData = await _repository.fetchSelectedCityData();
     if (selectedCityData == null) return;
 
     _updateFromDomain(selectedCityData);
@@ -48,17 +48,17 @@ class HomeController extends GetxController {
     developer.log("on season changed to $season");
     final String? previousSelectedSeason = state.value.selectedSeason;
     if (season != null && previousSelectedSeason != null) {
-      await repository.setSeasonSelected(season, previousSelectedSeason);
+      await _repository.setSeasonSelected(season, previousSelectedSeason);
     }
     if (season != null) {
-      final seasonChangedDomain = await repository.fetchCityDataBySeason(season);
-      final cities = await repository.fetchAllCities();
-      final seasons = await repository.fetchAllSeasons();
+      final seasonChangedDomain = await _repository.fetchCityDataBySeason(season);
+      final cities = await _repository.fetchAllCities();
+      final seasons = await _repository.fetchAllSeasons();
       if (seasonChangedDomain != null) {
-        snackbarMessage.value = temperatureDisplayDecorator.printTemperature(
-            seasonChangedDomain.temperature, format.value
+        snackbarMessage.value = _temperatureDisplayDecorator.printTemperature(
+            seasonChangedDomain.temperature, _format.value
         );
-        state.value = _mapFromDomain(cities, seasons, seasonChangedDomain, format.value);
+        state.value = _mapFromDomain(cities, seasons, seasonChangedDomain, _format.value);
       }
     }
   }
@@ -68,17 +68,17 @@ class HomeController extends GetxController {
     final String? previousSelectedCity = state.value.selectedCity;
 
     if (city != null && previousSelectedCity != null) {
-      await repository.setCitySelected(city, previousSelectedCity);
+      await _repository.setCitySelected(city, previousSelectedCity);
     }
     if (city != null) {
-      final cityChangedDomain = await repository.fetchCityDataByCity(city);
-      final cities = await repository.fetchAllCities();
-      final seasons = await repository.fetchAllSeasons();
+      final cityChangedDomain = await _repository.fetchCityDataByCity(city);
+      final cities = await _repository.fetchAllCities();
+      final seasons = await _repository.fetchAllSeasons();
       if (cityChangedDomain != null) {
-        snackbarMessage.value = snackbarMessage.value = temperatureDisplayDecorator.printTemperature(
-            cityChangedDomain.temperature, format.value
+        snackbarMessage.value = snackbarMessage.value = _temperatureDisplayDecorator.printTemperature(
+            cityChangedDomain.temperature, _format.value
         );
-        state.value = _mapFromDomain(cities, seasons, cityChangedDomain, format.value);
+        state.value = _mapFromDomain(cities, seasons, cityChangedDomain, _format.value);
       }
     }
   }
@@ -89,7 +89,7 @@ class HomeController extends GetxController {
     final currentState = state.value;
 
     final temperatureValue = currentState.temperatureValue;
-    final temperature = temperatureDisplayDecorator.printTemperature(temperatureValue, format);
+    final temperature = _temperatureDisplayDecorator.printTemperature(temperatureValue, format);
     final newState = currentState.copyWith(
       temperatureIndicator: temperature,
     );
@@ -100,7 +100,7 @@ class HomeController extends GetxController {
       CityDataDomain domainModel,
       [TemperatureDisplayFormat format = TemperatureDisplayFormat.celsius]
       ) {
-    final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
+    final temperature = _temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     final oldState = state.value;
     final newState = oldState.copyWith(
@@ -118,7 +118,7 @@ class HomeController extends GetxController {
       CityDataDomain domainModel,
       [TemperatureDisplayFormat format = TemperatureDisplayFormat.celsius]
       ) {
-    final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
+    final temperature = _temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     return HomeScreenState(
         temperatureValue: domainModel.temperature,
@@ -132,5 +132,17 @@ class HomeController extends GetxController {
 
   void navigateToSettings() {
     Get.to(SettingsScreen());
+  }
+
+  onCelsiusFormatSelected() {
+    _format.value = TemperatureDisplayFormat.celsius;
+  }
+
+  onFahrenheitFormatSelected() {
+    _format.value = TemperatureDisplayFormat.fahrenheit;
+  }
+
+  onKelvinFormatSelected() {
+    _format.value = TemperatureDisplayFormat.kelvin;
   }
 }

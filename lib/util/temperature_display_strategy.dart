@@ -1,5 +1,6 @@
-
 import 'package:weather_app/util/extensions.dart';
+
+const int _temperatureTextLength = 5;
 
 enum TemperatureDisplayFormat {
   celsius,
@@ -8,7 +9,6 @@ enum TemperatureDisplayFormat {
 }
 
 class TemperatureDisplayDecorator {
-  static const int temperatureTextLength = 5;
 
   String printTemperature(int temperatureValue, TemperatureDisplayFormat format) {
     final _TemperatureDisplayStrategy strategy;
@@ -23,8 +23,7 @@ class TemperatureDisplayDecorator {
         strategy = _FahrenheitTemperatureStrategy();
         break;
     }
-    return strategy.printTemperature(temperatureValue)
-        .truncate(max: temperatureTextLength);
+    return strategy.printTemperature(temperatureValue);
   }
 }
 
@@ -35,7 +34,9 @@ abstract class _TemperatureDisplayStrategy {
 class _CelsiusTemperatureStrategy extends _TemperatureDisplayStrategy {
   @override
   String printTemperature(int temperatureValue) {
-    return "$temperatureValue °C";
+    final truncatedTemperatureText = temperatureValue.toString()
+      .truncate(max: _temperatureTextLength);
+    return "$truncatedTemperatureText °C";
   }
 }
 
@@ -45,7 +46,9 @@ class _KelvinTemperatureStrategy extends _TemperatureDisplayStrategy {
   @override
   String printTemperature(int temperatureValue) {
     final kelvinTemperature = temperatureValue + kelvinCelsiusDifference;
-    return "$kelvinTemperature °K";
+    final truncatedTemperatureText = kelvinTemperature.toString()
+        .truncate(max: _temperatureTextLength);
+    return "$truncatedTemperatureText °K";
   }
 }
 
@@ -53,7 +56,8 @@ class _FahrenheitTemperatureStrategy extends _TemperatureDisplayStrategy {
   @override
   String printTemperature(int temperatureValue) {
     final fahrenheitTempValue = temperatureValue * 9 / 5 + 32;
-    return "$fahrenheitTempValue °F";
+    final truncatedTemperatureText = fahrenheitTempValue.toString()
+        .truncate(max: _temperatureTextLength);
+    return "$truncatedTemperatureText °F";
   }
-
 }

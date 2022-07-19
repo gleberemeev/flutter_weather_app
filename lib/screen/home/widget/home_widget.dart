@@ -68,6 +68,20 @@ class HomeWidget extends StatelessWidget {
               Obx(() => Text("average temperature is ${controller.state.value.temperatureIndicator} degrees")),
               const SizedBox(height: 8),
               Obx(() => Text("this is ${controller.state.value.cityType} city")),
+              const SizedBox(height: 8),
+              const Text("Select temperature display format",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(onPressed: () => controller.onCelsiusFormatSelected(), child: const Text("°C")),
+                  OutlinedButton(onPressed: () => controller.onFahrenheitFormatSelected(), child: const Text("°F")),
+                  OutlinedButton(onPressed: () => controller.onKelvinFormatSelected(), child: const Text("°K")),
+                ],
+              )
             ],
           ),
         ),
@@ -83,7 +97,7 @@ class HomeWidget extends StatelessWidget {
                   backgroundColor: Colors.blueAccent,
                   primary: Colors.white,
                   textStyle: const TextStyle(
-                      fontSize: 20,
+                    fontSize: 20,
                   ),
                 ),
                 child: const Text(
