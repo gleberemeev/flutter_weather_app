@@ -234,7 +234,7 @@ class CityRepositoryImpl extends DatabaseAccessor<WeatherAppDb> with _$CityRepos
       cityName: selectedCity.name,
       seasonName: selectedSeason.name,
       cityType: selectedCityType.name,
-      temperature: averageTemperature,
+      temperature: averageTemperature.round(),
     );
   }
 

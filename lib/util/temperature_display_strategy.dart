@@ -1,4 +1,6 @@
 
+import 'package:weather_app/util/extensions.dart';
+
 enum TemperatureDisplayFormat {
   celsius,
   kelvin,
@@ -6,6 +8,8 @@ enum TemperatureDisplayFormat {
 }
 
 class TemperatureDisplayDecorator {
+  static const int temperatureTextLength = 5;
+
   String printTemperature(int temperatureValue, TemperatureDisplayFormat format) {
     final _TemperatureDisplayStrategy strategy;
     switch (format) {
@@ -19,7 +23,8 @@ class TemperatureDisplayDecorator {
         strategy = _FahrenheitTemperatureStrategy();
         break;
     }
-    return strategy.printTemperature(temperatureValue);
+    return strategy.printTemperature(temperatureValue)
+        .truncate(max: temperatureTextLength);
   }
 }
 

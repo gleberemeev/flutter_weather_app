@@ -4,15 +4,15 @@ import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_domain.dart';
 import 'package:weather_app/data/model/state/home_screen_state.dart';
 import 'package:weather_app/screen/settings/settings_screen.dart';
-import 'package:weather_app/util/extensions.dart';
+import 'package:weather_app/util/temperature_display_strategy.dart';
 
 import '../../../data/repository/city_repository.dart';
 
 class HomeController extends GetxController {
-  static const int temperatureTextLength = 5;
-
   var state = Rx(HomeScreenState.empty());
   var snackbarMessage = Rx("");
+  var format = Rx(TemperatureDisplayFormat.celsius);
+  final TemperatureDisplayDecorator temperatureDisplayDecorator = TemperatureDisplayDecorator();
   final CityRepository repository = Get.find();
 
   @override
@@ -24,7 +24,7 @@ class HomeController extends GetxController {
     final selectedCityData = await repository.fetchSelectedCityData();
     if (selectedCityData == null) return;
 
-    state.value = _mapFromDomain(cities, seasons, selectedCityData);
+    state.value = _mapFromDomain(cities, seasons, selectedCityData, format.value);
 
     repository.listenCityUpdates().listen((event) {
       _updateSelectedCityData();
@@ -52,10 +52,10 @@ class HomeController extends GetxController {
       final cities = await repository.fetchAllCities();
       final seasons = await repository.fetchAllSeasons();
       if (seasonChangedDomain != null) {
-        snackbarMessage.value = seasonChangedDomain.temperature
-            .toString()
-            .truncate(max: temperatureTextLength);
-        state.value = _mapFromDomain(cities, seasons, seasonChangedDomain);
+        snackbarMessage.value = temperatureDisplayDecorator.printTemperature(
+            seasonChangedDomain.temperature, format.value
+        );
+        state.value = _mapFromDomain(cities, seasons, seasonChangedDomain, format.value);
       }
     }
   }
@@ -72,20 +72,19 @@ class HomeController extends GetxController {
       final cities = await repository.fetchAllCities();
       final seasons = await repository.fetchAllSeasons();
       if (cityChangedDomain != null) {
-        snackbarMessage.value = cityChangedDomain.temperature
-            .toString()
-            .truncate(max: temperatureTextLength);
-        state.value = _mapFromDomain(cities, seasons, cityChangedDomain);
+        snackbarMessage.value = snackbarMessage.value = temperatureDisplayDecorator.printTemperature(
+            cityChangedDomain.temperature, format.value
+        );
+        state.value = _mapFromDomain(cities, seasons, cityChangedDomain, format.value);
       }
     }
   }
 
   HomeScreenState _updateFromDomain(
       CityDataDomain domainModel,
+      [TemperatureDisplayFormat format = TemperatureDisplayFormat.celsius]
       ) {
-    final temperature = domainModel.temperature
-        .toString()
-        .truncate(max: temperatureTextLength);
+    final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     final oldState = state.value;
     return oldState.copyWith(
@@ -99,10 +98,9 @@ class HomeController extends GetxController {
       List<String> cities,
       List<String> seasons,
       CityDataDomain domainModel,
+      [TemperatureDisplayFormat format = TemperatureDisplayFormat.celsius]
       ) {
-    final temperature = domainModel.temperature
-        .toString()
-        .truncate(max: temperatureTextLength);
+    final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     return HomeScreenState(
         cities: cities,

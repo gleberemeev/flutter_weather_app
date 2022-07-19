@@ -19,7 +19,7 @@ mixin _$CityDataDomain {
   String get cityName => throw _privateConstructorUsedError;
   String get seasonName => throw _privateConstructorUsedError;
   String get cityType => throw _privateConstructorUsedError;
-  double get temperature => throw _privateConstructorUsedError;
+  int get temperature => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CityDataDomainCopyWith<CityDataDomain> get copyWith =>
@@ -32,10 +32,7 @@ abstract class $CityDataDomainCopyWith<$Res> {
           CityDataDomain value, $Res Function(CityDataDomain) then) =
       _$CityDataDomainCopyWithImpl<$Res>;
   $Res call(
-      {String cityName,
-      String seasonName,
-      String cityType,
-      double temperature});
+      {String cityName, String seasonName, String cityType, int temperature});
 }
 
 /// @nodoc
@@ -70,7 +67,7 @@ class _$CityDataDomainCopyWithImpl<$Res>
       temperature: temperature == freezed
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
     ));
   }
 }
@@ -83,10 +80,7 @@ abstract class _$$_CityDataDomainCopyWith<$Res>
       __$$_CityDataDomainCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String cityName,
-      String seasonName,
-      String cityType,
-      double temperature});
+      {String cityName, String seasonName, String cityType, int temperature});
 }
 
 /// @nodoc
@@ -123,7 +117,7 @@ class __$$_CityDataDomainCopyWithImpl<$Res>
       temperature: temperature == freezed
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
     ));
   }
 }
@@ -144,7 +138,7 @@ class _$_CityDataDomain implements _CityDataDomain {
   @override
   final String cityType;
   @override
-  final double temperature;
+  final int temperature;
 
   @override
   String toString() {
@@ -183,7 +177,7 @@ abstract class _CityDataDomain implements CityDataDomain {
       {required final String cityName,
       required final String seasonName,
       required final String cityType,
-      required final double temperature}) = _$_CityDataDomain;
+      required final int temperature}) = _$_CityDataDomain;
 
   @override
   String get cityName;
@@ -192,7 +186,7 @@ abstract class _CityDataDomain implements CityDataDomain {
   @override
   String get cityType;
   @override
-  double get temperature;
+  int get temperature;
   @override
   @JsonKey(ignore: true)
   _$$_CityDataDomainCopyWith<_$_CityDataDomain> get copyWith =>
