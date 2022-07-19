@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'city_repository.dart';
+part of 'city_repository_impl.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$CityRepositoryMixin on DatabaseAccessor<WeatherAppDb> {
+mixin _$CityRepositoryImplMixin on DatabaseAccessor<WeatherAppDb> {
   $CityTable get city => attachedDatabase.city;
   $SeasonTable get season => attachedDatabase.season;
   $MonthTable get month => attachedDatabase.month;

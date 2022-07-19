@@ -3,9 +3,10 @@ import 'dart:developer' as developer;
 import 'package:get/get.dart';
 import 'package:weather_app/data/model/domain/city_data_domain.dart';
 import 'package:weather_app/data/model/state/home_screen_state.dart';
-import 'package:weather_app/data/repository/city_repository.dart';
 import 'package:weather_app/screen/settings/settings_screen.dart';
 import 'package:weather_app/util/extensions.dart';
+
+import '../../../data/repository/city_repository.dart';
 
 class HomeController extends GetxController {
   static const int temperatureTextLength = 5;
