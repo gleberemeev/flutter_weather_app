@@ -6,9 +6,8 @@ import 'package:weather_app/data/weather_app_db.dart';
 import 'package:weather_app/screen/home/home_screen.dart';
 
 void main() {
-  final database = WeatherAppDb();
-  Get.put(database);
-  Get.put<CityRepository>(CityRepositoryImpl(database));
+  Get.lazyPut(() => WeatherAppDb.getInstance());
+  Get.put<CityRepository>(CityRepositoryImpl(Get.find()));
   runApp(const MyApp());
 }
 
