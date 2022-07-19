@@ -1,6 +1,6 @@
 import 'package:weather_app/util/extensions.dart';
 
-const int _temperatureTextLength = 5;
+const int _temperatureTextLength = 6;
 
 enum TemperatureDisplayFormat {
   celsius,
