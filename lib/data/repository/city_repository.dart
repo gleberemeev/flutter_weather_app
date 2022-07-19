@@ -4,6 +4,8 @@ import '../model/domain/city_data_domain.dart';
 import '../model/domain/save_city_data_domain.dart';
 import '../weather_app_db.dart';
 
+
+/// An interface hiding implementation details, internal variables, mixin classes, etc
 abstract class CityRepository {
   Future<void> populateDatabaseIfNeeded();
   Future<List<String>> fetchAllMonths();

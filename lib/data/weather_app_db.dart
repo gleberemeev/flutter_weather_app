@@ -15,17 +15,21 @@ part 'weather_app_db.g.dart';
 
 @DriftDatabase(tables: [City, Season, Month, Temperature, Season, CityType])
 class WeatherAppDb extends _$WeatherAppDb {
-  static WeatherAppDb? _instance;
-
   WeatherAppDb() : super(_openConnection());
+
+  @override
+  int get schemaVersion => 1;
+}
+
+
+///lazy singleton and factory patterns usage
+class WeatherAppDbFactory {
+  static WeatherAppDb? _instance;
 
   static WeatherAppDb getInstance() {
     _instance ??= WeatherAppDb();
     return _instance!;
   }
-
-  @override
-  int get schemaVersion => 1;
 }
 
 LazyDatabase _openConnection() {
