@@ -10,6 +10,7 @@ class HomeScreenState with _$HomeScreenState {
   const factory HomeScreenState({
     required List<String> cities,
     required List<String> seasons,
+    required int temperatureValue,
     required String temperatureIndicator,
     required String cityType,
     required String? selectedSeason,
@@ -20,6 +21,7 @@ class HomeScreenState with _$HomeScreenState {
     return HomeScreenState(cities: List.empty(),
         seasons: List.empty(),
         temperatureIndicator: "",
+        temperatureValue: 0,
         cityType: "",
         selectedCity: "",
         selectedSeason: "");

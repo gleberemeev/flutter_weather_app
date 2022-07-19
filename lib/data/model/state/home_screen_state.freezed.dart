@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeScreenState {
   List<String> get cities => throw _privateConstructorUsedError;
   List<String> get seasons => throw _privateConstructorUsedError;
+  int get temperatureValue => throw _privateConstructorUsedError;
   String get temperatureIndicator => throw _privateConstructorUsedError;
   String get cityType => throw _privateConstructorUsedError;
   String? get selectedSeason => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $HomeScreenStateCopyWith<$Res> {
   $Res call(
       {List<String> cities,
       List<String> seasons,
+      int temperatureValue,
       String temperatureIndicator,
       String cityType,
       String? selectedSeason,
@@ -55,6 +57,7 @@ class _$HomeScreenStateCopyWithImpl<$Res>
   $Res call({
     Object? cities = freezed,
     Object? seasons = freezed,
+    Object? temperatureValue = freezed,
     Object? temperatureIndicator = freezed,
     Object? cityType = freezed,
     Object? selectedSeason = freezed,
@@ -69,6 +72,10 @@ class _$HomeScreenStateCopyWithImpl<$Res>
           ? _value.seasons
           : seasons // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      temperatureValue: temperatureValue == freezed
+          ? _value.temperatureValue
+          : temperatureValue // ignore: cast_nullable_to_non_nullable
+              as int,
       temperatureIndicator: temperatureIndicator == freezed
           ? _value.temperatureIndicator
           : temperatureIndicator // ignore: cast_nullable_to_non_nullable
@@ -99,6 +106,7 @@ abstract class _$$_HomeScreenStateCopyWith<$Res>
   $Res call(
       {List<String> cities,
       List<String> seasons,
+      int temperatureValue,
       String temperatureIndicator,
       String cityType,
       String? selectedSeason,
@@ -120,6 +128,7 @@ class __$$_HomeScreenStateCopyWithImpl<$Res>
   $Res call({
     Object? cities = freezed,
     Object? seasons = freezed,
+    Object? temperatureValue = freezed,
     Object? temperatureIndicator = freezed,
     Object? cityType = freezed,
     Object? selectedSeason = freezed,
@@ -134,6 +143,10 @@ class __$$_HomeScreenStateCopyWithImpl<$Res>
           ? _value._seasons
           : seasons // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      temperatureValue: temperatureValue == freezed
+          ? _value.temperatureValue
+          : temperatureValue // ignore: cast_nullable_to_non_nullable
+              as int,
       temperatureIndicator: temperatureIndicator == freezed
           ? _value.temperatureIndicator
           : temperatureIndicator // ignore: cast_nullable_to_non_nullable
@@ -160,6 +173,7 @@ class _$_HomeScreenState implements _HomeScreenState {
   const _$_HomeScreenState(
       {required final List<String> cities,
       required final List<String> seasons,
+      required this.temperatureValue,
       required this.temperatureIndicator,
       required this.cityType,
       required this.selectedSeason,
@@ -182,6 +196,8 @@ class _$_HomeScreenState implements _HomeScreenState {
   }
 
   @override
+  final int temperatureValue;
+  @override
   final String temperatureIndicator;
   @override
   final String cityType;
@@ -192,7 +208,7 @@ class _$_HomeScreenState implements _HomeScreenState {
 
   @override
   String toString() {
-    return 'HomeScreenState(cities: $cities, seasons: $seasons, temperatureIndicator: $temperatureIndicator, cityType: $cityType, selectedSeason: $selectedSeason, selectedCity: $selectedCity)';
+    return 'HomeScreenState(cities: $cities, seasons: $seasons, temperatureValue: $temperatureValue, temperatureIndicator: $temperatureIndicator, cityType: $cityType, selectedSeason: $selectedSeason, selectedCity: $selectedCity)';
   }
 
   @override
@@ -202,6 +218,8 @@ class _$_HomeScreenState implements _HomeScreenState {
             other is _$_HomeScreenState &&
             const DeepCollectionEquality().equals(other._cities, _cities) &&
             const DeepCollectionEquality().equals(other._seasons, _seasons) &&
+            const DeepCollectionEquality()
+                .equals(other.temperatureValue, temperatureValue) &&
             const DeepCollectionEquality()
                 .equals(other.temperatureIndicator, temperatureIndicator) &&
             const DeepCollectionEquality().equals(other.cityType, cityType) &&
@@ -216,6 +234,7 @@ class _$_HomeScreenState implements _HomeScreenState {
       runtimeType,
       const DeepCollectionEquality().hash(_cities),
       const DeepCollectionEquality().hash(_seasons),
+      const DeepCollectionEquality().hash(temperatureValue),
       const DeepCollectionEquality().hash(temperatureIndicator),
       const DeepCollectionEquality().hash(cityType),
       const DeepCollectionEquality().hash(selectedSeason),
@@ -231,6 +250,7 @@ abstract class _HomeScreenState implements HomeScreenState {
   const factory _HomeScreenState(
       {required final List<String> cities,
       required final List<String> seasons,
+      required final int temperatureValue,
       required final String temperatureIndicator,
       required final String cityType,
       required final String? selectedSeason,
@@ -240,6 +260,8 @@ abstract class _HomeScreenState implements HomeScreenState {
   List<String> get cities;
   @override
   List<String> get seasons;
+  @override
+  int get temperatureValue;
   @override
   String get temperatureIndicator;
   @override

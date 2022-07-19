@@ -32,13 +32,16 @@ class HomeController extends GetxController {
     repository.listenTemperatureUpdates().listen((event) {
       _updateSelectedCityData();
     });
+    format.listen((newValue) {
+      _updateWithTemperatureFormat(newValue);
+    });
   }
 
   void _updateSelectedCityData() async {
     final selectedCityData = await repository.fetchSelectedCityData();
     if (selectedCityData == null) return;
 
-    state.value = _updateFromDomain(selectedCityData);
+    _updateFromDomain(selectedCityData);
   }
 
   void onSeasonChanged(String? season) async {
@@ -80,18 +83,33 @@ class HomeController extends GetxController {
     }
   }
 
-  HomeScreenState _updateFromDomain(
+  void _updateWithTemperatureFormat(
+      TemperatureDisplayFormat format,
+      ) {
+    final currentState = state.value;
+
+    final temperatureValue = currentState.temperatureValue;
+    final temperature = temperatureDisplayDecorator.printTemperature(temperatureValue, format);
+    final newState = currentState.copyWith(
+      temperatureIndicator: temperature,
+    );
+    state.value = newState;
+  }
+
+  void _updateFromDomain(
       CityDataDomain domainModel,
       [TemperatureDisplayFormat format = TemperatureDisplayFormat.celsius]
       ) {
     final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     final oldState = state.value;
-    return oldState.copyWith(
+    final newState = oldState.copyWith(
+      temperatureValue: domainModel.temperature,
       temperatureIndicator: temperature,
       cityType: domainModel.cityType,
       selectedSeason: domainModel.seasonName,
       selectedCity: domainModel.cityName);
+    state.value = newState;
   }
 
   HomeScreenState _mapFromDomain(
@@ -103,6 +121,7 @@ class HomeController extends GetxController {
     final temperature = temperatureDisplayDecorator.printTemperature(domainModel.temperature, format);
 
     return HomeScreenState(
+        temperatureValue: domainModel.temperature,
         cities: cities,
         seasons: seasons,
         temperatureIndicator: temperature,
